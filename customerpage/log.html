@@ -1,0 +1,33 @@
+ if( $username == "admin" && $password == "admin" )
+     {
+        header('location: /SportsMart/admin14/index.html');
+     }
+     else
+     {
+        $q = "SELECT * FROM `register` where 1 ";
+     $sql = mysqli_query($conn,$q);
+     while($row = mysqli_fetch_assoc($sql))
+     {
+      if($user == $row['username'] && $pass == $row['password']){
+         $username = $user;
+         $password = $pass;
+      }
+     }
+     if($username != $user)
+     {
+
+     }
+     else if($password != $pass)
+         {
+
+
+         }
+         else
+         {
+            header('location:mainpage.php');
+         }
+     }
+    }
+
+?>  background: -webkit-gradient(linear,left top, left bottom,from(rgba(79, 77, 77, 0.908)),to(rgba(101, 97, 97, 0.263)))  ;
+     
