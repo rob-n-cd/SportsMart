@@ -163,7 +163,7 @@
 <div class="dropdown">
   <button class="dropbtn" onclick="options()">Categorys</button>
   <div id = "optionsground" class="dropdown-content">
-    <?php   $sqlcategory = "select * from category;";
+    <?php   $sqlcategory = "select * from category where status=1;";
     $category = mysqli_query($conn,$sqlcategory);  
      while($rowcategory = mysqli_fetch_assoc($category))
      { ?>

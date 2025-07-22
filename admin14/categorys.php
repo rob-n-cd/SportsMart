@@ -316,9 +316,9 @@ $data=array('categoryname'=>$_POST['name'],);
       </tr>
       <?php
     $actions=array(
-    'edit'=>array('label'=>'Edit','link'=>'editsportsitems.php','params'=>array('cid'=>'cid'),'attributes'=>array('class'=>'btn btn-success')),
+    'edit'=>array('label'=>'Edit','link'=>'editcategory.php','params'=>array('cid'=>'cid'),'attributes'=>array('class'=>'btn btn-success')),
     
-    'delete'=>array('label'=>'Delete','link'=>'delete_sports_item.php','params'=>array('cid'=>'cid'),'attributes'=>array('class'=>'btn btn-success'))
+    'delete'=>array('label'=>'Delete','link'=>'deletecategory.php','params'=>array('cid'=>'cid'),'attributes'=>array('class'=>'btn btn-success'))
     
     );
 
