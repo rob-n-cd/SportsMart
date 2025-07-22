@@ -21,7 +21,11 @@
 ?>
 
 
-
+<?php
+  $sql = "select * from category where cid = '$order_row[category]';";
+    $category = mysqli_query($conn,$sql);  
+     $row = mysqli_fetch_assoc($category);
+?>
 
 
 
@@ -124,46 +128,7 @@
   <div id="shoping-ground" style="display: block; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
    <div  class="items-box  bg-dark" style="display: flex; justify-content:center; margin-left:46vh; align-items:center; position:fixed;  background:rgb(185, 185, 185);  width:160vh; height:95vh; border-radius:9px; overflow:hidden;overflow-y:scroll;">  
    <div class="m-auto row">
-<div class="dropdown">
-  <button class="dropbtn" onclick="options()">Categorys</button>
-  <div id = "optionsground" class="dropdown-content">
-    <?php   $sqlcategory = "select * from category;";
-    $category = mysqli_query($conn,$sqlcategory);  
-     while($rowcategory = mysqli_fetch_assoc($category))
-     { ?>
-
-    <a href="#"><?php echo $rowcategory['categoryname'] ?></a>
-   <?php }?>
-    
-  </div>
-</div>
- <?php $dis="SELECT * FROM `additems` where `status` = 1;";
-              $result=mysqli_query($conn,$dis);
-              if($result->num_rows > 0){
-            while($item_row=mysqli_fetch_assoc($result))
-                        {
-                            $image = $item_row['image'];
-                            ?>
-
-    <div class="col-4 carousel-fade p-5" > 
-    
-    <?php echo" <div  class='links'><img id='card-ground'   src='/SportsMart/upload/".$image."'   class='shade  form-check-input object-fit-md-cover' />";?>
-       <div class="item-details gzoomIn "><br>
-        <h4 class="hide-head"><?php echo $item_row['name'];?></h4>
-        <h5 class="hide-head5"><?php echo $item_row['price'];?> rs</h5>
-        <a href="#" class="hide-btn carousel-indicators">Buy</a>
-       
-      </div>
-    
-                        </div>
-      
-     
-      </div>
-      <?php }
-        }
-      else
-         echo "<label style='color:white; text-align:center; margin-top:15vh; font-size:6vh; font-family:ROG; word-spacing:10px; '>No products found!</label>"; 
-?>         
+        
      </div>
      <div  style=" display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed; margin-left:159vh; margin-top:-93vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;" onclick="Closebar()">&times;</div>
     </div>
@@ -189,6 +154,10 @@
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
           <h5>Technology:</h5> <label style='font-size:18px;'><?php echo$order_row['tech'];?></label>
+        </div>
+
+         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
+          <h5>Category:</h5> <label style='font-size:18px;'><?php echo$row['categoryname'];?></label>
         </div>
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>

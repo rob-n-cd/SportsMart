@@ -187,9 +187,8 @@
        <div class="item-details gzoomIn "><br>
         <h4 class="hide-head"><?php echo $item_row['name'];?></h4>
         <h5 class="hide-head5"><?php echo $item_row['price'];?> rs</h5>
-        
+         <button onclick="SubmitCart(<?php echo htmlspecialchars(json_encode($item_row)); ?>)" class="float-xl-end me-md-3 bi-suit-heart-fill lead breadcrumb" style="color:red; font-size:30px; backgorund:transparent; border:none;"></button> 
         <a href='order.php?order_id=<?php echo $item_row['id'];?>' class="hide-btn carousel-indicators">Buy</a>
-                     
 
       </div>
     
@@ -206,10 +205,10 @@
      <div  style=" display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed; margin-left:159vh; margin-top:-93vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;" onclick="Closebar()">&times;</div>
     </div>
   </div>
+<script>
+ 
+</script>
 
-
-
-  
 
 
   <div id="bill-ground" style="display:none; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
@@ -415,6 +414,25 @@
     
 
   <script>
+ function SubmitCart(product) {
+    const data = `name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.image)}&price=${encodeURIComponent(product.price)}`;
+
+    fetch("insertcart.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: data
+    })
+    .then(response => response.text())
+    .then(result => {
+    alert(result);
+    })
+    .catch(error => {
+      document.getElementById("response").innerText = "Error: " + error;
+    });
+  }
+
 
    function bookpage(id) {
       const orderid = document.getElementById("order-ground");
