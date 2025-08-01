@@ -145,7 +145,7 @@
        
  <h1 style="color: cornsilk; text-align:center; font-family:cursive">Order Details</h1>
       <img src='/SportsMart/upload/<?php echo $order_row['image'];?>' style='width: 40vh; height:50vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)'/>
-      
+       <div class="product" style="position:related;"> 
       <div style='width:70vh; height:58vh; background:rgba(39, 38, 41, 0.605) ; margin-left:calc(44%); margin-top:-56vh; border-radius:15px;  overflow:hidden;overflow-y:scroll;'>
        
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; color:antiquewhite;font-family:monospace;'>
@@ -161,7 +161,7 @@
         </div>
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Price:</h5> <label style='font-size:18px;'><?php echo $order_row['price'];?>/-</label>
+          <h5>Price:</h5> <label style='font-size:18px;'  class="price"><?php echo $order_row['price'];?>/-</label>
         </div>
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
@@ -188,15 +188,24 @@
       </div>
       
        <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 63vh; margin-top:-5vh; color:antiquewhite;font-family:monospace;'>
-       <form action='booking.php?book_id=<?php echo $order_row['id'];?>' method='post' style="margin-top:1vh;">
-          <h5> Enter qundity of item:</h5> <label style='font-size:18px;'><input type='number' name='quandity' required style=' width:8vh;height:5vh; text-align:center; font-size:3vh; font-style:bolder; border-radius:5px; border:none'></label>
-        </div>
-       <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 105vh; margin-top:-17vh;  color:antiquewhite;font-family:monospace;'>
-          <input type='submit' name='order' value='submit' style='border: none; border-radius:7px;color:black;background:white;height:4vh;width:10vh'> 
-        </div>
-        </form>
+      
+   
+   
+     <form action='booking.php?book_id=<?php echo $order_row['id'];?>' method="post" stlye="position:fixed;">
+     <label class ="alert-link" style=" margin-left:30px; margin-top:15px;" >Quantity:</label> 
+       <div class="quantity-box" style="margin-top:-25px; margin-left:16vh;">
+    <a class="minus" style="margin-left:8px; color:black; font-size:25px; color:white;">-</a>
+   <input type="text" name="quandity" value="1"  readonly class="quantity" style="width:6vh; text-align:center;outline:none;border:none;">
+    <a class="plus" style="margin-right:6px; color:black; font-size:25px; color:white;">+</a>
+  </div><br>
+     <label class ="alert-link" style=" margin-left:15px;" >Total:</label> 
+     <input type="text" name="total" class="total" value="<?php echo $order_row['price'];?>"  style="width:10vh; margin-left:10px; margin-top:2vh; font-size:17px;"  readonly>
+   <input type="submit" name="order" value="submit"  style="width:10vh; margin-left:170px; margin-top:2vh;"  readonly>
+ 
+     </div>
+     </form>
 
-    <div class='card-group column-gap-lg-5' style='margin-top: -15vh; margin-left:6vh; background:rgba(39, 38, 41, 0.605) ;width:45vh;  height:40px; border-radius:45px;  text-align:center;'><h4 class='bi-check-circle' style=' margin-top:10px;margin-left:4vh;font-size:smaller;color:rgb(62, 235, 18)'>&nbsp;Order</h4><h4 style=' margin-top:10px; font-size:smaller;color:white' class='bi-x-circle-fill'>&nbsp;Booking</h4><h4 style='  margin-top:10px; font-size:smaller;color:white' class='bi-x-circle-fill'>&nbsp;Payment</h4></div>
+    <div class='card-group column-gap-lg-5' style='margin-top: -17vh; margin-left:5vh; background:rgba(39, 38, 41, 0.605) ;width:45vh;  height:40px; border-radius:45px;  text-align:center;'><h4 class='bi-check-circle' style=' margin-top:10px;margin-left:4vh;font-size:smaller;color:rgb(62, 235, 18)'>&nbsp;Order</h4><h4 style=' margin-top:10px; font-size:smaller;color:white' class='bi-x-circle-fill'>&nbsp;Booking</h4><h4 style='  margin-top:10px; font-size:smaller;color:white' class='bi-x-circle-fill'>&nbsp;Payment</h4></div>
    <div class='cross' onclick='Closebar_Order()'>&times;</div>
   </div> 
   
@@ -208,6 +217,30 @@
 
 
   <script>
+
+     document.querySelectorAll('.product').forEach(product => {
+    const minusBtn = product.querySelector('.minus');
+    const plusBtn = product.querySelector('.plus');
+    const quantitySpan = product.querySelector('.quantity');
+    const totalInput = product.querySelector('.total');
+    const price = parseInt(product.querySelector('.price').innerText);
+
+    plusBtn.addEventListener('click', () => {
+      let quantity = parseInt(quantitySpan.value);
+      quantity++;
+      quantitySpan.value = quantity;
+      totalInput.value = price * quantity;
+    });
+
+    minusBtn.addEventListener('click', () => {
+      let quantity = parseInt(quantitySpan.value);
+      if (quantity > 1) {
+        quantity--;
+        quantitySpan.value = quantity;
+        totalInput.value = price * quantity;
+      }
+    });
+  });
 
     function Closebar_Order(){
 
@@ -287,7 +320,7 @@
     .editprofileground{width: 190vh; height: 100vh; background: transparent; display: none; position: fixed;}
       .editaccount{margin-top: 200px; margin-left:-13vh; font-family:monospace; color:white;}
       .editaccount:hover{color :rgb(138, 184, 46); }
-      .cross{ display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed; margin-left:136vh; margin-top:-80vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;}
+      .cross{ display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed; margin-left:136vh; margin-top:-85vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;}
       .cross:active{transform: scale(0.8);}
     .links{ position: relative  ;  width: 29vh; height:37vh;  border-radius:5px; margin-left:-5vh;transition: 7s;}
 

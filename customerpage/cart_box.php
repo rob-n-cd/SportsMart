@@ -33,31 +33,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -146,7 +121,7 @@
     <h6 style="margin-top: 40px; margin-left:1vh; font-family:monospace; font-size:18px;">Buy History:</h6> 
      <button  onclick="bill()"  class="rounded bi-cart-check-fill cart"style="height:5vh;" ></button> 
      <h5 style="margin-top: 120px; margin-left:-16vh; font-family:monospace;" >Cart box:</h5>
-     <button  id="myButton" onclick="cartbox()"  class="rounded bi-cart-check-fill cart" style="height:5vh; margin-top:16vh;" ></button> 
+     <button  onclick="cartbox()"  class="rounded bi-cart-check-fill cart" style="height:5vh; margin-top:16vh;" ></button> 
      <a href="#" class="editaccount"  onclick="editprofile()"><u>Edit Account</u></a> 
     </div>
 
@@ -168,7 +143,7 @@
      while($rowcategory = mysqli_fetch_assoc($category))
      { ?>
 
-    <a href="categoryitems.php?cat_id=<?php echo $rowcategory['cid']; ?>"><?php echo $rowcategory['categoryname']; ?></a>
+    <a href="#"><?php echo $rowcategory['categoryname'] ?></a>
    <?php }?>
     
   </div>
@@ -187,22 +162,7 @@
        <div class="item-details gzoomIn "><br>
         <h4 class="hide-head"><?php echo $item_row['name'];?></h4>
         <h5 class="hide-head5"><?php echo $item_row['price'];?> rs</h5>
-        <?php
-         $sqlcart = "select * from cart;";
-           $cart = mysqli_query($conn,$sqlcart);  
-            $flag =0; 
-             while($rowcart = mysqli_fetch_assoc($cart))
-              { 
-                if($rowcart['item_id'] == $item_row['id'])
-                   {
-                     $flag = 1; break;
-                   }
-
-              }
-               if($flag == 0){
-        ?>
          <button onclick="SubmitCart(<?php echo htmlspecialchars(json_encode($item_row)); ?>)" class="float-xl-end me-md-3 bi-suit-heart-fill lead breadcrumb" style="color:red; font-size:30px; backgorund:transparent; border:none;"></button> 
-         <?php } ?>
         <a href='order.php?order_id=<?php echo $item_row['id'];?>' class="hide-btn carousel-indicators">Buy</a>
 
       </div>
@@ -425,36 +385,55 @@
 
  
 
-<div id="cartbox" style="display: none; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
+<div id="cartbox" style="display: block; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
 <div  class=" gslideInLeft my-xl-4" style="margin-left:10vh;display:block; width:50vh;height:75vh; background: rgba(194, 194, 194, 1); border-radius:10px; position:fixed; overflow:hidden;overflow-y:scroll; ">
 
   <div style="margin-left:2px;position:fixed;  width:349px;height:13vh; background:  rgba(194, 194, 194, 1); border-top-left-radius:10px; border-bottom:1px  solid;">
   <span class="bi-bag-heart-fill" style="position:fixed; margin-top:40px;margin-left:15vh; color: rgba(109, 175, 23, 0.92);  font-size:20px;">  <u>Cart Kit</u></span>
-  <div  style=" display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:transparent; position:fixed; margin-left:39vh; padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:40px; height:3px; width: 40px;" onclick="Closebar_Cart()"><p class="ms-5">&times;</p></div>
+  <div  style=" display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:transparent; position:fixed; margin-left:39vh; padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:40px; height:3px; width: 40px;" onclick="Closebar_Cart()" id=  "backButton"><p class="ms-5">&times;</p></div>
 </div>
   <?php
    $sqlcart = "select * from cart;";
     $cart = mysqli_query($conn,$sqlcart);  
+    if($cart->num_rows > 0){
      while($rowcart = mysqli_fetch_assoc($cart))
      {  
   ?>
   
-   <div class="" style="width:45vh;height:43vh; background:transpaent;position:related; margin-top:16vh;"> 
+   <div class="product" style="width:45vh;height:43vh; background:transpaent;position:related; margin-top:16vh;"> 
    
-     <img src='/SportsMart/upload/<?php echo $rowcart['image'];?>' style="width: 15vh; height:20vh; border-radius:6px; margin-left:10px;margin-top:50px;"/>
+     <img src='/SportsMart/upload/<?php echo $rowcart['image'];?>' style="width: 15vh; height:20vh; border-radius:6px; margin-left:10px;margin-top:20px;"/>
      <div class="" style="width:22vh;height:14vh; background:rgba(100, 122, 148, 0.79);;position:related; margin-left:20vh;margin-top:-18vh; align-items:center; border-radius:10px;">
       <span  class ="alert-link" style="margin-left:10px;margin-top:-20px; position:related"><label class="col-5">Item Name:</label><label><?php echo $rowcart['name'];?></label><span><br><br>
-        <span   class ="alert-link"  style="margin-left:10px;margin-top:-2px;"><label class="col-5">Price:</label><label><?php echo $rowcart['price'];?></label></span>
+        <span   class ="alert-link"  style="margin-left:10px;margin-top:-2px;"><label class="col-5">Price:</label><label class="price"><?php echo $rowcart['price'];?></label></span>
      </div>
-     
-     <div style="position:related;width:36vh;height:14vh;background:rgba(100, 122, 148, 0.79); margin-top:40px;margin-left:35px;border-radius:10px;">
+     <form action='booking.php?book_id=<?php echo $rowcart['item_id'];?>' method="post" stlye="position:fixed;">
+     <div style="position:related;width:36vh;height:21vh;background:rgba(100, 122, 148, 0.79); margin-top:40px;margin-left:35px;border-radius:10px;">
       <label class ="alert-link" style=" margin-left:30px; margin-top:15px;" >Quantity:</label> 
+       <div class="quantity-box" style="margin-top:-25px; margin-left:16vh;">
+    <a class="minus" style="margin-left:8px; color:black; font-size:25px;">-</a>
+   <input type="text" name="quandity" value="1"  readonly class="quantity" style="width:6vh; text-align:center;outline:none;border:none;">
+    <a class="plus" style="margin-right:6px; color:black; font-size:25px;">+</a>
+  </div>
+     <label class ="alert-link" style=" margin-left:15px;" >Total:</label> 
+     <input type="text" name="total" class="total" value="<?php echo $rowcart['price'];?>"  style="width:10vh; margin-left:10px; margin-top:2vh;"  readonly>
+   <input type="submit" name="order" value="submit"  style="width:10vh; margin-left:170px; margin-top:2vh;"  readonly>
      </div>
-     <br> <a href="delete_cart.php" class="delete_cart px-xl-5 ms-md-5 m-3 bg-danger progress-bar" style="">Delete</a> 
-      <div style=" margin-left:20px; margin-top:40px; height:2px;width:40vh;background:black;"></div>
+     <br> <a href='deletecart.php?id=<?php echo $rowcart['id'];?>' class="delete_cart px-xl-5 ms-md-5 m-3 bg-danger progress-bar" style="">Delete</a> 
+      <div style=" margin-left:20px; margin-top:30px; height:2px;width:40vh;background:black;"></div>
    </div>
- 
-   <?php }?>
+     </form>
+   <?php }
+   }
+   else
+   {
+      echo "   <img src='assets\img\detective.png' style='position:fixed; width: 30vh; height:30vh; margin-top:30vh; margin-left:15vh;  filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0,0,0,0.5));'/>
+       <img src='assets\img\chatbox.png' style=' width: 30vh; height:30vh; margin-top:10vh; margin-left:6vh;  filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0,0,0,0.5));'/>
+      <label style='color:black; text-align:center; position:fixed; margin-left:-21vh; margin-top:19vh; font-size:3vh; font-family:ROG; word-spacing:10px; '>Cart<br> Empty</label>
+      
+      "; 
+
+   }?>
    
   </div>
   
@@ -463,30 +442,41 @@
 
 
   <script>
-     document.addEventListener("DOMContentLoaded", function() {
-      var actionBox = document.getElementById("cartbox");
-      var myButton = document.getElementById("myButton");
-      var action2Box = document.getElementById("accountid");
-      // If button was clicked earlier in this session, hide the action box
-      if (sessionStorage.getItem("buttonClicked")) {
-        actionBox.style.display = "none";
-      
-      }
-     
-       
-      // Add click handler to button (if it’s visible)
-      myButton.addEventListener("click", function() {
-       
-        // Set a flag in sessionStorage so we know the button was clicked
-        sessionStorage.setItem("buttonClicked", "true");
-        // Navigate to Page B
-        window.location.href = "cart_box.php";
-      });
+
+ /*  document.getElementById('quantity').addEventListener('change', function() {
+  const quantity = parseInt(this.value);
+  const price = parseInt(document.getElementById('price').value);
+  const result = quantity * price;
+  document.getElementById('result').value = result.toFixed(0);
+   });*/
+
+  document.querySelectorAll('.product').forEach(product => {
+    const minusBtn = product.querySelector('.minus');
+    const plusBtn = product.querySelector('.plus');
+    const quantitySpan = product.querySelector('.quantity');
+    const totalInput = product.querySelector('.total');
+    const price = parseInt(product.querySelector('.price').innerText);
+
+    plusBtn.addEventListener('click', () => {
+      let quantity = parseInt(quantitySpan.value);
+      quantity++;
+      quantitySpan.value = quantity;
+      totalInput.value = price * quantity;
     });
+
+    minusBtn.addEventListener('click', () => {
+      let quantity = parseInt(quantitySpan.value);
+      if (quantity > 1) {
+        quantity--;
+        quantitySpan.value = quantity;
+        totalInput.value = price * quantity;
+      }
+    });
+  });
 
 
  function SubmitCart(product) {
-    const data = `name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.image)}&price=${encodeURIComponent(product.price)}&item_id=${encodeURIComponent(product.id)}`;
+    const data = `name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.image)}&price=${encodeURIComponent(product.price)}`;
 
     fetch("insertcart.php", {
       method: "POST",
@@ -505,26 +495,7 @@
   }
 
 
-   function bookpage(id) {
-      const orderid = document.getElementById("order-ground");
-      const bookid = document.getElementById("booking-ground");
-      if (bookid.style.display === "none") {
-          orderid.style.display ="none";
-          bookid.style.display = "flex"; // Show the bar
-           var xhr = new XMLHttpRequest();
-          xhr.open("POST",'booking.php' ,true);
-          xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-
-         xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            document.getElementById('booking-contents').innerHTML = xhr.responseText;
-        }
-    };
-
-    xhr.send("book_id="+ id);
-        
-      } 
-    }
+ 
 
 
     
@@ -614,14 +585,15 @@ function cartbox(){
       } 
     }
 
-    function Closebar_Cart(){
+   /* function Closebar_Cart(){
         const closeid = document.getElementById("cartbox");                                                                      
-    
-      if(closeid.style.display==="block")
-      {
-        closeid.style.display = "none";
-      } 
-    }
+       window.history.back();
+    }*/
+
+      document.getElementById("backButton").addEventListener("click", function() {
+      // Navigate back to Page A
+      window.location.href = "mainpage.php";
+    });
 
     function Closebar_Order(){
 
@@ -722,6 +694,17 @@ function CloseBar(){
 }
   </script>
    <style>
+   .quantity-box {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      overflow: hidden;
+      width: 90px;
+      justify-content: space-between;
+    }
+
+
     @font-face {
       font-family: 'ROG';
       src: url('assets/rogfont.ttf')

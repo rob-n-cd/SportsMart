@@ -35,29 +35,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -156,7 +133,7 @@
   </div>
 
 
-  <div id="shoping-ground" style="display: none; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
+  <div id="shoping-ground" style="display: block; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
    <div  class="items-box gzoomIn bg-dark" style="display: flex; justify-content:center; margin-left:46vh; align-items:center; position:fixed;  background:rgb(185, 185, 185); 
     width:160vh; height:95vh; border-radius:9px; overflow:hidden;overflow-y:scroll;">  
    <div class="m-auto row">
@@ -168,12 +145,15 @@
      while($rowcategory = mysqli_fetch_assoc($category))
      { ?>
 
-    <a href="categoryitems.php?cat_id=<?php echo $rowcategory['cid']; ?>"><?php echo $rowcategory['categoryname']; ?></a>
+    <a href="categoryitems.php?cat_id=<?php echo $rowcategory['cid']; ?>"><?php echo $rowcategory['categoryname'] ?></a>
    <?php }?>
     
   </div>
 </div>
- <?php $dis="SELECT * FROM `additems` where `status` = 1;";
+ <?php 
+            $cat_id = $_GET['cat_id'];
+ 
+        $dis="SELECT * FROM `additems` where `category` = '$cat_id' and `status` = 1;";
               $result=mysqli_query($conn,$dis);
               if($result->num_rows > 0){
             while($item_row=mysqli_fetch_assoc($result))
@@ -225,76 +205,6 @@
 
 
 
-  <div id="bill-ground" style="display:none; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
-    <div  class="items-box gzoomIn bg-dark" style="display: flex; justify-content:center; margin-left:44vh; align-items:center; position:fixed;  background:rgb(185, 185, 185);  width:160vh; height:95vh; border-radius:9px; overflow:hidden;overflow-y:scroll;">  
-    <div class="m-auto row">
-     <div class="col-4 carousel-fade p-5" > 
-      <div style="width:120vh;height:100vh; background:transparant;position:relative"><h3 class="p-3 card" style="display: block; text-align:center; font-family:'Times New Roman', Times, serif;">Bill</h3>
-   
-        <div style="width:120vh;height:55vh; background:rgb(255, 255, 255);position:relative">
-     <div style="width:120vh; height:55vh; background-color:transparent; border:4px solid rgba(44, 43, 43, 0.745);border-left:none;border-right:none;border-top:none;">
-      <img src="assets/img/barza.jpg" style="width: 26vh; height:36vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)"/>
-      <button onclick="cancel_from_cart()" type="submit" style="background:red;border-radius:2px;width:20px;height:9px;  display:block;margin-top:-43vh; margin-left:113vh;"></button>
-       <div style="width:80vh; height:46vh; background-color:rgb(43, 91, 91);;  margin-top:2vh; margin-left:39vh; border-top-left-radius: 80px;border-bottom-left-radius:80px;">
-        <div style="background-color: rgba(255, 0, 0, 0); width:75vh; margin-left:3vh; height:45vh;">
-          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; color:antiquewhite;font-family:monospace;">
-            <h5>Item Name:</h5> <label style="margin-left:6vh;font-size:18px;">Telstar Football</label>
-          </div>
-  
-          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-            <h5>Item Price:</h5> <label style="margin-left:72px; font-size:18px;">150/-</label>
-          </div>
-  
-          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-            <h5>Your Name:</h5> <label style="margin-left:7vh;font-size:18px;">Robin Davis</label>
-          </div>
-  
-          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-            <h5>date of Purchased:</h5> <label style="margin-left:3vh;font-size:18px;">15-05-2024</label>
-          </div>
-        </div>
-    </div>
-     
-     
-    </div>
-
-  
-      </div>
-
-      <div style="width:120vh;height:55vh; background:rgb(255, 255, 255);position:relative">
-        <div style="width:120vh; height:55vh; background-color:transparent; border:4px solid rgba(44, 43, 43, 0.745);border-left:none;border-right:none;border-top:none;">
-         <img src="assets/img/addidasball.jpg" style="width: 26vh; height:36vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)"/>
-         <button onclick="cancel_from_cart()" type="submit" style="background:red;border-radius:2px;width:20px;height:9px;  display:block;margin-top:-43vh; margin-left:113vh;"></button>
-          <div style="width:80vh; height:46vh; background-color:rgb(43, 91, 91);  margin-top:2vh; margin-left:39vh; border-top-left-radius: 80px;border-bottom-left-radius:80px;">
-            <div style="background-color: rgba(255, 0, 0, 0); width:75vh; margin-left:3vh; height:45vh;">
-              <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; color:antiquewhite;font-family:monospace;">
-                <h5>Item Name:</h5> <label style="margin-left:6vh;font-size:18px;">Telstar Football</label>
-              </div>
-      
-              <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-                <h5>Item Price:</h5> <label style="margin-left:72px; font-size:18px;">150/-</label>
-              </div>
-      
-              <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-                <h5>Your Name:</h5> <label style="margin-left:7vh;font-size:18px;">Robin Davis</label>
-              </div>
-      
-              <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-                <h5>date of Purchased:</h5> <label style="margin-left:3vh;font-size:18px;">15-05-2024</label>
-              </div>
-            </div>
-        </div>
-     </div>
-     
-    </div>
-
-    <div style="width:120vh;height:55vh; background:rgb(255, 255, 255);position:relative">
-      <div style="width:120vh; height:55vh; background-color:transparent; border:4px solid rgba(44, 43, 43, 0.745);border-left:none;border-right:none;border-top:none;">
-       <img src="assets/img/yonexy1.jpg" style="width: 26vh; height:36vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)"/>
-       <button onclick="cancel_from_cart()" type="submit" style="background:red;border-radius:2px;width:20px;height:9px;  display:block;margin-top:-43vh; margin-left:113vh;"></button>
-        <div style="width:80vh; height:46vh; background-color:rgb(43, 91, 91);;  margin-top:2vh; margin-left:39vh; border-top-left-radius: 80px;border-bottom-left-radius:80px;">
-      </div>
-   </div>
    
   </div>
    
@@ -302,12 +212,7 @@
         
 
         
-     </div>
-     </div>
-     
-     </div>
-     <div  style=" display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed; margin-left:159vh; margin-top:-93vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;" onclick="Closebar_bill()">&times;</div>
-     
+    
    </div>
 </div>
 
@@ -596,10 +501,7 @@ function cartbox(){
 
       const closeid = document.getElementById("shoping-ground");                                                                      
     
-      if(closeid.style.display==="flex")
-      {
-        closeid.style.display = "none";
-      } 
+      window.history.back();
     }
 
     function Closebar_bill(){

@@ -12,9 +12,12 @@
 
     <?php
     if(isset($_POST['order']))
-    {$_SESSION['quandity'] = $_POST['quandity'];}
+    {
+      $_SESSION['quandity'] = $_POST['quandity'];
+      $_SESSION['total'] = $_POST['total'];
+    }
     
-    $book_id = $_GET['book_id'];  
+   $_SESSION['id']  =  $book_id = $_GET['book_id'];
           $book_sql = "SELECT * FROM `additems` where `id` = $book_id;";
           $book_result =  mysqli_query($conn,$book_sql);
           $book_row=mysqli_fetch_assoc($book_result);
@@ -28,7 +31,7 @@
           $address = $row['address'];
           $pincode = $_POST['pin'];
           $selectItem =$_POST['itemname'];
-          $book_price = $_POST['price'];
+          $book_price = $_SESSION['total'];
           $book_date = $_POST['date'];
           $booking_sql = "INSERT INTO  `booking` (`bname`,`address`,`location`,`pincode`,`itemname`,`price`,`date`) values('$name','$address','$location','$pincode','$selectItem','$book_price','$book_date');";
           if(mysqli_query($conn,$booking_sql))
@@ -267,11 +270,11 @@
         </div>
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Selected Item:</h5> <label style='margin-left:3vh;font-size:18px;'><input type='text' name='itemname'value="<?php echo$book_row['name'];?>" style='outline:none;background:rgba(177, 177, 177, 0.84);height:5vh; border-radius:5px; border:none'></label>
+          <h5>Selected Item:</h5> <label style='margin-left:3vh;font-size:18px;'><input type='text' name='itemname'value="<?php echo$book_row['name'];?>" readonly style='outline:none;background:rgba(177, 177, 177, 0.84);height:5vh; border-radius:5px; border:none'></label>
         </div>
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Price:</h5> <label style='margin-left:13vh;font-size:18px;'><input type='text' name='price' value="<?php echo$book_row['price'];?>" readonly  style='outline:none;background:rgba(177, 177, 177, 0.84);height:5vh; border-radius:5px; border:none'></label>
+          <h5>Price:</h5> <label style='margin-left:13vh;font-size:18px;'><input type='text' name='price' value="<?php echo $_SESSION['total'];?>" readonly  style='outline:none;background:rgba(177, 177, 177, 0.84);height:5vh; border-radius:5px; border:none'></label>
         </div>
         
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
@@ -282,7 +285,7 @@
           <input type='submit' name='booking' value='submit'  style='border: none; border-radius:7px;color:black;background:white;height:5vh;width:10vh'> 
         </div>
       </div>
-    <div class='card-group column-gap-lg-5' style='margin-top: -15vh; margin-left:5vh; background:rgba(39, 38, 41, 0.605) ;width:45vh;  height:40px; border-radius:45px;  text-align:center;'><h4 class='bi-check-circle' style=' margin-top:10px;margin-left:4vh;font-size:smaller;color:rgb(62, 235, 18)'>&nbsp;Order</h4><h4 style=' margin-top:10px; font-size:smaller;color:rgb(62, 235, 18);' class='bi-check-circle'>&nbsp;Booking</h4><h4 style='  margin-top:10px; font-size:smaller;color:white' class='bi-x-circle-fill'>&nbsp;Payment</h4></div>
+    <div class='card-group column-gap-lg-5' style='margin-top: -11vh; margin-left:5vh; background:rgba(39, 38, 41, 0.605) ;width:45vh;  height:40px; border-radius:45px;  text-align:center;'><h4 class='bi-check-circle' style=' margin-top:10px;margin-left:4vh;font-size:smaller;color:rgb(62, 235, 18)'>&nbsp;Order</h4><h4 style=' margin-top:10px; font-size:smaller;color:rgb(62, 235, 18);' class='bi-check-circle'>&nbsp;Booking</h4><h4 style='  margin-top:10px; font-size:smaller;color:white' class='bi-x-circle-fill'>&nbsp;Payment</h4></div>
     <div class='cross' onclick='Closebar_Booking()'>&times;</div>
   </div> 
     </form>
@@ -291,18 +294,7 @@
 
 
     
-  <div id="payment-ground" style="display: none; justify-content:center; margin-left:32vh; align-items:center; position:fixed;  background:rgba(255, 0, 0, 0);  width:163vh; height:100vh; border-radius:9px;">
-    <div style=" justify-content:center; margin-left:-3vh; align-items:center; position:fixed;  background:rgb(62, 68, 63); margin-top:-1vh;  width:140vh; height:90vh; border-radius:9px;">
-      <h1 style="color: cornsilk; text-align:center; font-family:cursive">Payment Page</h1>
-      <img src="assets/img/barza.jpg" style="width: 40vh; height:50vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)"/>
-      
-      <div style="width:70vh; height:70vh; background:rgba(39, 38, 41, 0.605) ; margin-left:calc(44%); margin-top:-54vh; border-radius:15px;">
-       
-        <img src="assets/img/scaner/Untitled (1).png" style="width: 35vh; height:45vh; border-radius:6px; margin-left:calc(23%); margin-top:calc(15%)"/>
-      
-      </div>
-    <div class="card-group column-gap-lg-5" style="margin-top: -5vh; margin-left:7vh; background:rgba(39, 38, 41, 0.605) ;width:45vh;  height:40px; border-radius:45px;  text-align:center;"><h4 class="bi-check-circle" style=" margin-top:10px;margin-left:4vh;font-size:smaller;color:rgb(62, 235, 18)">&nbsp;Order</h4><h4 style=" margin-top:10px; font-size:smaller;color:rgb(62, 235, 18);" class="bi-check-circle">&nbsp;Booking</h4><h4 style="  margin-top:10px; font-size:smaller;color:rgb(62, 235, 18);" class="bi-check-circle">&nbsp;Payment</h4></div>
-   
+  
 
   </div> 
   </div>
@@ -415,7 +407,7 @@
     .editprofileground{width: 190vh; height: 100vh; background: transparent; display: none; position: fixed;}
       .editaccount{margin-top: 200px; margin-left:-13vh; font-family:monospace; color:white;}
       .editaccount:hover{color :rgb(138, 184, 46); }
-      .cross{ display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed; margin-left:135vh; margin-top:-80vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;}
+      .cross{ display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed; margin-left:136vh; margin-top:-85vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;}
       .cross:active{transform: scale(0.8);}
     .links{ position: relative  ;  width: 29vh; height:37vh;  border-radius:5px; margin-left:-5vh;transition: 7s;}
 
