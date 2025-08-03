@@ -5,69 +5,27 @@
     $sql = "select * from register where username = '$user';";
     $res = mysqli_query($conn,$sql);
     $row = mysqli_fetch_assoc($res);
-?>
 
+   
+   ?>
 
 
 
     <?php
-    if(isset($_POST['order']))
-    {
-      $_SESSION['quandity'] = $_POST['quandity'];
-      $_SESSION['total'] = $_POST['total'];
-    }
-    
-   $_SESSION['id']  =  $book_id = $_GET['book_id'];
-          $book_sql = "SELECT * FROM `additems` where `id` = $book_id;";
-          $book_result =  mysqli_query($conn,$book_sql);
-          $book_row=mysqli_fetch_assoc($book_result);
-           
-          if( $_SESSION['quandity'] <= $book_row['stocks'] ){
-            $update_stock = $book_row['stocks'] - $_SESSION['quandity'];
-          $update = "update additems set stocks = '$update_stock' where  id=$book_id";
-          $update_stock_status =  mysqli_query($conn,$update);
-          }
-          else
-          {
-           // $_SESSION['alert'] = "Limited";
-            ?><script>
-              localStorage.setItem("showAlert","Only <?php echo htmlspecialchars($book_row['stocks']);?> Items are There");
-              const previous = document.referrer;
-              var value = "<?php echo urlencode($book_id); ?>";
-              if(previous){
-                   window.location.href= "order.php?order_id=" + value;
-              }
-               
-            </script>
-         
-         <?php }?>
+    $order_id = $_GET['order_id'];  
+ 
+    $order_sql = "SELECT * FROM `additems` where `id` = $order_id;";
+    $order_result =  mysqli_query($conn,$order_sql);
+    $order_row=mysqli_fetch_assoc($order_result);
+
+?>
 
 
-        
-
-
- <?php
-    
-        if(isset($_POST['booking'])){
-          $name = $_POST['name'];
-          $location = $_POST['loc'];
-          $address = $row['address'];
-          $pincode = $_POST['pin'];
-          $selectItem =$_POST['itemname'];
-          $book_price = $_SESSION['total'];
-          $book_date = $_POST['date'];
-          $booking_sql = "INSERT INTO  `booking` (`bname`,`address`,`location`,`pincode`,`itemname`,`price`,`date`) values('$name','$address','$location','$pincode','$selectItem','$book_price','$book_date');";
-          if(mysqli_query($conn,$booking_sql))
-          {
-             header('Location: payment.php?pay_id='.$book_id.'');
-          }
-          else
-          echo"alert('Booking failed try again!');";
-          
-        }
-    ?>
-   
-
+<?php
+  $sql = "select * from category where cid = '$order_row[category]';";
+    $category = mysqli_query($conn,$sql);  
+     $row = mysqli_fetch_assoc($category);
+?>
 
 
 
@@ -158,7 +116,7 @@
   
    
    <button onclick="account()"  class="account bi-person   d-xl-inline-flex column-gap-sm-2"  ><p style="margin-top: 7px; "><?php echo $user; ?></p></button>
-   
+  
 
 
    <div class="main-txt"><img  class="img"  src="assets\img\logo (2).png"/></div>
@@ -170,46 +128,7 @@
   <div id="shoping-ground" style="display: block; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
    <div  class="items-box  bg-dark" style="display: flex; justify-content:center; margin-left:46vh; align-items:center; position:fixed;  background:rgb(185, 185, 185);  width:160vh; height:95vh; border-radius:9px; overflow:hidden;overflow-y:scroll;">  
    <div class="m-auto row">
-<div class="dropdown">
-  <button class="dropbtn" onclick="options()">Categorys</button>
-  <div id = "optionsground" class="dropdown-content">
-    <?php   $sqlcategory = "select * from category;";
-    $category = mysqli_query($conn,$sqlcategory);  
-     while($rowcategory = mysqli_fetch_assoc($category))
-     { ?>
-
-    <a href="#"><?php echo $rowcategory['categoryname'] ?></a>
-   <?php }?>
-    
-  </div>
-</div>
- <?php $dis="SELECT * FROM `additems` where `status` = 1;";
-              $result=mysqli_query($conn,$dis);
-              if($result->num_rows > 0){
-            while($item_row=mysqli_fetch_assoc($result))
-                        {
-                            $image = $item_row['image'];
-                            ?>
-
-    <div class="col-4 carousel-fade p-5" > 
-    
-    <?php echo" <div  class='links'><img id='card-ground'   src='/SportsMart/upload/".$image."'   class='shade  form-check-input object-fit-md-cover' />";?>
-       <div class="item-details gzoomIn "><br>
-        <h4 class="hide-head"><?php echo $item_row['name'];?></h4>
-        <h5 class="hide-head5"><?php echo $item_row['price'];?> rs</h5>
-        <a href='order.php?order_id=<?php echo $item_row['id'];?>' class="hide-btn carousel-indicators">Buy</a>
-
-      </div>
-    
-                        </div>
-      
-     
-      </div>
-      <?php }
-        }
-      else
-         echo "<label style='color:white; text-align:center; margin-top:15vh; font-size:6vh; font-family:ROG; word-spacing:10px; '>No products found!</label>"; 
-?>         
+        
      </div>
      <div  style=" display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed; margin-left:159vh; margin-top:-93vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;" onclick="Closebar()">&times;</div>
     </div>
@@ -220,132 +139,107 @@
   
 
 
-  <div id="bill-ground" style="display:none; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
-    <div  class="items-box gzoomIn bg-dark" style="display: flex; justify-content:center; margin-left:44vh; align-items:center; position:fixed;  background:rgb(185, 185, 185);  width:160vh; height:95vh; border-radius:9px; overflow:hidden;overflow-y:scroll;">  
-    <div class="m-auto row">
-     <div class="col-4 carousel-fade p-5" > 
-      <div style="width:120vh;height:100vh; background:transparant;position:relative"><h3 class="p-3 card" style="display: block; text-align:center; font-family:'Times New Roman', Times, serif;">Bill</h3>
-   
-        <div style="width:120vh;height:55vh; background:rgb(255, 255, 255);position:relative">
-     <div style="width:120vh; height:55vh; background-color:transparent; border:4px solid rgba(44, 43, 43, 0.745);border-left:none;border-right:none;border-top:none;">
-      <img src="assets/img/barza.jpg" style="width: 26vh; height:36vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)"/>
-      <button onclick="cancel_from_cart()" type="submit" style="background:red;border-radius:2px;width:20px;height:9px;  display:block;margin-top:-43vh; margin-left:113vh;"></button>
-       <div style="width:80vh; height:46vh; background-color:rgb(43, 91, 91);;  margin-top:2vh; margin-left:39vh; border-top-left-radius: 80px;border-bottom-left-radius:80px;">
-        <div style="background-color: rgba(255, 0, 0, 0); width:75vh; margin-left:3vh; height:45vh;">
-          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; color:antiquewhite;font-family:monospace;">
-            <h5>Item Name:</h5> <label style="margin-left:6vh;font-size:18px;">Telstar Football</label>
-          </div>
-  
-          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-            <h5>Item Price:</h5> <label style="margin-left:72px; font-size:18px;">150/-</label>
-          </div>
-  
-          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-            <h5>Your Name:</h5> <label style="margin-left:7vh;font-size:18px;">Robin Davis</label>
-          </div>
-  
-          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-            <h5>date of Purchased:</h5> <label style="margin-left:3vh;font-size:18px;">15-05-2024</label>
-          </div>
-        </div>
-    </div>
-     
-     
-    </div>
 
-  
-      </div>
-
-
-   
-     
-        
-
-        
-     </div>
-     </div>
-     
-     </div>
-     <div  style=" display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed; margin-left:159vh; margin-top:-93vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;" onclick="Closebar_bill()">&times;</div>
-     
-   </div>
-</div>
-
-
-
-
-
-  <div id="booking-ground" style="display: block; justify-content:center;  margin-left:32vh; align-items:center; position:fixed;  background:rgba(255, 0, 0, 0);  width:163vh; height:100vh; border-radius:9px;">
-    <div id="booking-contents" style=" justify-content:center; margin-left:13vh; align-items:center; position:fixed;  background:rgb(62, 68, 63); margin-top:5vh;  width:140vh; height:92vh;padding-bottom:40px; border-radius:9px;">
-        <h1 style='color: cornsilk; text-align:center; font-family:cursive'>Booking Page</h1>
-      <img src='/SportsMart/upload/<?php echo$book_row['image'];?>' style='width: 40vh; height:50vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)'/>
-      
-      <div style='width:70vh; height:75vh; background:rgba(39, 38, 41, 0.605) ; margin-left:calc(44%); margin-top:-54vh; border-radius:15px;'>
-       <form action="" method="post">
+  <div id="order-ground" style="display: block; justify-content:center; margin-left:32vh; align-items:center; position:fixed;  background:rgba(255, 0, 0, 0);  width:163vh; height:100vh; border-radius:9px;">
+  <div  style=" justify-content:center; margin-left:13vh; align-items:center; position:fixed;  background:rgb(62, 68, 63); margin-top:5vh;  width:140vh; height:92vh; border-radius:9px;">
+       
+ <h1 style="color: cornsilk; text-align:center; font-family:cursive">Order Details</h1>
+      <img src='/SportsMart/upload/<?php echo $order_row['image'];?>' style='width: 40vh; height:50vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)'/>
+       <div class="product" style="position:related;"> 
+      <div style='width:70vh; height:58vh; background:rgba(39, 38, 41, 0.605) ; margin-left:calc(44%); margin-top:-56vh; border-radius:15px;  overflow:hidden;overflow-y:scroll;'>
+       
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Your Name:</h5> <label style='margin-left:6vh;font-size:18px;'><input type='text' name='name' value="<?php echo$row['name'];?>" readonly  style=' border-radius:5px; border:none; outline:none; background:rgba(177, 177, 177, 0.84); height:5vh;' ></label>
+          <h5>Item Name:</h5> <label style='font-size:18px;'><?php echo $order_row['name'];?></label>
         </div>
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Location:</h5> <label style='margin-left:72px; font-size:18px;'><input type='text' name='loc'placeholder="text.."  required style='height:5vh; border-radius:5px; border:none'></label>
+          <h5>Technology:</h5> <label style='font-size:18px;'><?php echo$order_row['tech'];?></label>
+        </div>
+
+         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
+          <h5>Category:</h5> <label style='font-size:18px;'><?php echo$row['categoryname'];?></label>
         </div>
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Pin-code:</h5> <label style='margin-left:9vh;font-size:18px;'><input type='number' name='pin'placeholder="text.."  required style='height:5vh; border-radius:5px; border:none'></label>
+          <h5>Price:</h5> <label style='font-size:18px;'  class="price"><?php echo $order_row['price'];?>/-</label>
         </div>
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Selected Item:</h5> <label style='margin-left:3vh;font-size:18px;'><input type='text' name='itemname'value="<?php echo$book_row['name'];?>" readonly style='outline:none;background:rgba(177, 177, 177, 0.84);height:5vh; border-radius:5px; border:none'></label>
+          <h5>Item color:</h5> <label style='font-size:18px;'><?php echo $order_row['color'];?></label>
         </div>
 
-        <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Price:</h5> <label style='margin-left:13vh;font-size:18px;'><input type='text' name='price' value="<?php echo $_SESSION['total'];?>" readonly  style='outline:none;background:rgba(177, 177, 177, 0.84);height:5vh; border-radius:5px; border:none'></label>
-        </div>
+
         
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Enter Date:</h5> <label style='margin-left:6vh;font-size:18px;'><input type='date' name='date' required style=' border-radius:5px; border:none'></label>
+          <h5>Size:</h5> <label style='font-size:18px;'><?php echo $order_row['size'];?></label>
         </div>
+
         
-        <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 45vh; margin-top:-11vh; color:antiquewhite;font-family:monospace;'>
-          <input type='submit' name='booking' value='submit'  style='border: none; border-radius:7px;color:black;background:white;height:5vh;width:10vh'> 
+        <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
+          <h5>Quality:</h5> <label style='font-size:18px;'><?php echo $order_row['quality'];?></label>
         </div>
+
+
+      <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
+          <h5>Player Level:</h5> <label style='font-size:18px;'><?php echo $order_row['playlevel'];?></label>
+        </div>
+  
+        
       </div>
-    <div class='card-group column-gap-lg-5' style='margin-top: -11vh; margin-left:5vh; background:rgba(39, 38, 41, 0.605) ;width:45vh;  height:40px; border-radius:45px;  text-align:center;'><h4 class='bi-check-circle' style=' margin-top:10px;margin-left:4vh;font-size:smaller;color:rgb(62, 235, 18)'>&nbsp;Order</h4><h4 style=' margin-top:10px; font-size:smaller;color:rgb(62, 235, 18);' class='bi-check-circle'>&nbsp;Booking</h4><h4 style='  margin-top:10px; font-size:smaller;color:white' class='bi-x-circle-fill'>&nbsp;Payment</h4></div>
-    <div class='cross' onclick='Closebar_Booking()'>&times;</div>
-  </div> 
-    </form>
-  </div>
+      
+       <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 63vh; margin-top:-5vh; color:antiquewhite;font-family:monospace;'>
+      
+   
+   
    
 
-
-    
-  
-
+   <div class='cross' onclick='Closebar_Order()'>&times;</div>
   </div> 
+  
+     
+  
+  </div>
+    
   </div>
 
-
-
-
- 
-
-
- 
-  
-    
 
   <script>
 
+     document.querySelectorAll('.product').forEach(product => {
+    const minusBtn = product.querySelector('.minus');
+    const plusBtn = product.querySelector('.plus');
+    const quantitySpan = product.querySelector('.quantity');
+    const totalInput = product.querySelector('.total');
+    const price = parseInt(product.querySelector('.price').innerText);
+
+    plusBtn.addEventListener('click', () => {
+      let quantity = parseInt(quantitySpan.value);
+      quantity++;
+      quantitySpan.value = quantity;
+      totalInput.value = price * quantity;
+    });
+
+    minusBtn.addEventListener('click', () => {
+      let quantity = parseInt(quantitySpan.value);
+      if (quantity > 1) {
+        quantity--;
+        quantitySpan.value = quantity;
+        totalInput.value = price * quantity;
+      }
+    });
+  });
+
+    function Closebar_Order(){
+
+      const closeid = document.getElementById("order-ground");                                                                      
     
-   
-  
-
-
-
-    function Closebar_Booking(){
-
-     window.history.back();
-    }
+     // if(closeid.style.display==="block")
+    //  {
+   ///     closeid.style.display = "none";
+  window.history.back();
+       
+  //    } 
+  }
 
     
     function shopbox() {
@@ -358,25 +252,6 @@
         shopboxbar.style.display = "none"; // Hide the bar
       }
     }
-
-
-
-
-
-   
-    function paymentpage() {
-      const bookid = document.getElementById("booking-ground");
-      const payid = document.getElementById("payment-ground");
-      if (payid.style.display === "none") {
-          bookid.style.display ="none";
-          payid.style.display = "flex"; // Show the bar
-    
-        
-      } else {
-        payid.style.display = "none"; // Hide the bar
-      }
-    }
-
 
   </script>
    <style>
@@ -432,7 +307,7 @@
     .editprofileground{width: 190vh; height: 100vh; background: transparent; display: none; position: fixed;}
       .editaccount{margin-top: 200px; margin-left:-13vh; font-family:monospace; color:white;}
       .editaccount:hover{color :rgb(138, 184, 46); }
-      .cross{ display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed; margin-left:136vh; margin-top:-85vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;}
+      .cross{ display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:rgb(235, 4, 4); position:fixed;  margin-top:-72vh; margin-left:66vh; height: 3vh;padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:25px; height:1px; width: 35px;}
       .cross:active{transform: scale(0.8);}
     .links{ position: relative  ;  width: 29vh; height:37vh;  border-radius:5px; margin-left:-5vh;transition: 7s;}
 

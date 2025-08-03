@@ -12,7 +12,7 @@
 
 
     <?php
-    $order_id = $_GET['order_id'];  
+    $order_id = htmlspecialchars($_GET['order_id']); 
  
     $order_sql = "SELECT * FROM `additems` where `id` = $order_id;";
     $order_result =  mysqli_query($conn,$order_sql);
@@ -26,6 +26,7 @@
     $category = mysqli_query($conn,$sql);  
      $row = mysqli_fetch_assoc($category);
 ?>
+
 
 
 
@@ -217,6 +218,13 @@
 
 
   <script>
+      window.onload = function(){
+        const msg = localStorage.getItem("showAlert");
+        if(msg){
+          alert(msg);
+          localStorage.removeItem("showAlert");
+        }
+      };
 
      document.querySelectorAll('.product').forEach(product => {
     const minusBtn = product.querySelector('.minus');

@@ -173,7 +173,7 @@
     
   </div>
 </div>
- <?php $dis="SELECT * FROM `additems` where `status` = 1;";
+ <?php $dis="SELECT * FROM `additems` where `status` = 1 and `stocks` != 0;";
               $result=mysqli_query($conn,$dis);
               if($result->num_rows > 0){
             while($item_row=mysqli_fetch_assoc($result))

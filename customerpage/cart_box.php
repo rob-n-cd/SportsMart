@@ -393,8 +393,10 @@
   <div  style=" display:flex;  justify-content:center;  color:rgb(0, 0, 0); background:transparent; position:fixed; margin-left:39vh; padding-bottom:5vh; padding-right:8px; padding-left:8px; border-radius:50px; font-size:40px; height:3px; width: 40px;" onclick="Closebar_Cart()" id=  "backButton"><p class="ms-5">&times;</p></div>
 </div>
   <?php
+  
    $sqlcart = "select * from cart;";
-    $cart = mysqli_query($conn,$sqlcart);  
+    $cart = mysqli_query($conn,$sqlcart); 
+    
     if($cart->num_rows > 0){
      while($rowcart = mysqli_fetch_assoc($cart))
      {  
@@ -402,7 +404,7 @@
   
    <div class="product" style="width:45vh;height:43vh; background:transpaent;position:related; margin-top:16vh;"> 
    
-     <img src='/SportsMart/upload/<?php echo $rowcart['image'];?>' style="width: 15vh; height:20vh; border-radius:6px; margin-left:10px;margin-top:20px;"/>
+     <a href="single_item_details.php?order_id=<?php echo $rowcart['item_id'];?>"><img src='/SportsMart/upload/<?php echo $rowcart['image'];?>' style="width: 15vh; height:20vh; border-radius:6px; margin-left:10px;margin-top:20px;"/></a>
      <div class="" style="width:22vh;height:14vh; background:rgba(100, 122, 148, 0.79);;position:related; margin-left:20vh;margin-top:-18vh; align-items:center; border-radius:10px;">
       <span  class ="alert-link" style="margin-left:10px;margin-top:-20px; position:related"><label class="col-5">Item Name:</label><label><?php echo $rowcart['name'];?></label><span><br><br>
         <span   class ="alert-link"  style="margin-left:10px;margin-top:-2px;"><label class="col-5">Price:</label><label class="price"><?php echo $rowcart['price'];?></label></span>
@@ -417,7 +419,19 @@
   </div>
      <label class ="alert-link" style=" margin-left:15px;" >Total:</label> 
      <input type="text" name="total" class="total" value="<?php echo $rowcart['price'];?>"  style="width:10vh; margin-left:10px; margin-top:2vh;"  readonly>
-   <input type="submit" name="order" value="submit"  style="width:10vh; margin-left:170px; margin-top:2vh;"  readonly>
+    <?php 
+     $stockcheck = "select * from additems where  status=1 and id = '$rowcart[item_id]';";
+      $cartstockcheck = mysqli_query($conn,$stockcheck); 
+      $stockcheckrow = mysqli_fetch_assoc($cartstockcheck);
+    if($stockcheckrow['stocks'] == 0){ ?>
+     <br><label style="color:red;margin-left:20vh ">Unavaliable</label>
+    <?php }
+    else
+    {?>
+    <input type="submit" name="order" value="submit"  style="width:10vh; margin-left:170px; margin-top:2vh;"  readonly>
+      <?php
+    }?>
+
      </div>
      <br> <a href='deletecart.php?id=<?php echo $rowcart['id'];?>' class="delete_cart px-xl-5 ms-md-5 m-3 bg-danger progress-bar" style="">Delete</a> 
       <div style=" margin-left:20px; margin-top:30px; height:2px;width:40vh;background:black;"></div>

@@ -1,76 +1,8 @@
- <?php 
- require('../config/autoload.php'); 
-$file=new FileUpload();
-$elements=array("name"=>"");
-
-
-$form=new FormAssist($elements,$_POST);
-
-
-
-$dao=new DataAccess();
-
-$labels=array('name'=>"Category name");
-
-$rules=array("name"=>array("required"=>true),);
-    
-    
-$validator = new FormValidator($rules,$labels);
-
-if(isset($_POST["insert"]))
-{
-
-if($validator->validate($_POST))
-{
-	
-   
-
-$data=array('categoryname'=>$_POST['name'],);
-
-   
-    if($dao->insert($data,"category"))
-    {
-        echo "<script> alert('New record created successfully');</script> ";
-
-    }
-    else
-        {$msg="Registration failed";} ?>
-
-
-<?php
-    
-}
-}
-
-
-
-?>
-
-
-
-
-
-
-
-
-
-
-
-
+<?php include('dbcon.php') ?>
 
 <!DOCTYPE html>
 <html lang="en">
-  <script>
-            function openpage() {
-      const bookid = document.getElementById("addsports");
-      if (bookid.style.display === "none") {
-          bookid.style.display ="block"; 
-        
-      } else {
-        bookid.style.display = "none"; // Hide the bar
-      }
-    }
-          </script>
+ 
 <head>
   <!-- Required meta tags --> 
   <meta charset="utf-8">
@@ -117,9 +49,7 @@ $data=array('categoryname'=>$_POST['name'],);
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown d-lg-flex d-none">
-                <button type="button" class="btn btn-info font-weight-bold" onclick="openpage()">+ Create New</button>
-            </li>
+          
           <li class="nav-item dropdown d-flex">
             <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
               <i class="icon-air-play mx-0"></i>
@@ -243,7 +173,7 @@ $data=array('categoryname'=>$_POST['name'],);
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="viewoutofstocks.php">
+           <a class="nav-link" href="viewoutofstocks.php">
               <i class="icon-help menu-icon"></i>
               <span class="menu-title">Out of Stock Items</span>
             </a>
@@ -273,78 +203,38 @@ $data=array('categoryname'=>$_POST['name'],);
         </ul>
       </nav>
 
-        
-   <div  style="display:none; " id="addsports">
-      <div class="carousel-indicators nav-tabs" style=" position:fixed; background:white; width:178vh; height:85vh; padding-bottom:100vh; margin:auto; margin-left:33vh; margin-bottom:1vh; overflow:hidden;overflow-y:scroll;  ">
-          
-   
-       <form action="" method="POST" enctype="multipart/form-data">
-        <div style=" position:related; width:88vh; height:136vh; background:rgba(39, 38, 41, 0.798) ; margin-left:calc(-10%); margin-top:15vh; border-radius:15px; ">
-       
-        <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; color:antiquewhite;font-family:monospace;">
-          <h5>Manufactuer/importer:</h5> <label style="margin-left:6vh;font-size:18px;">
 
-                 <?= $form->textBox('name',array('class'=>'form-control','style'=>'height:3vh')); ?>
-                <?= $validator->error('name '); ?>
+      <?php
+        $sql = "select * from additems where stocks=0 and status=1;";
+        $result = mysqli_query($conn,$sql);
+      ?>
 
-          </label>
-        </div>
-
-       
-        <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 60vh; margin-top:-5vh; color:antiquewhite;font-family:monospace;">
-          <input type="submit" name="insert" value="submit"  style="border: none; border-radius:7px;color:black;background:white;height:6vh;width:10vh"> 
-        </div>
-      </div>
-  </form>
-        
-      </div>
-          
-          
-    </div>
     <div class="container_gray_bg navbar-brand text-center"  id="home_feat_1">
     <div class="container">
     	<div class="row">
             <div class="col-md-12">
-                <table  border="1" class="table badge-light thead-dark" style="margin-top:100px;">
+                <table  border="1" class="table badge-light thead-dark" style="margin-top:100px; margin-left:20vh;">
                     <tbody class="thead-dark">  
                     <tr>
                         
         <th>Id</th>
-        <th> Category Name</th>
+        <th> Item Name</th>
            <th>Action</th>
       
       </tr>
       <?php
-    $actions=array(
-    'edit'=>array('label'=>'Edit','link'=>'editcategory.php','params'=>array('cid'=>'cid'),'attributes'=>array('class'=>'btn btn-success')),
-    
-    'delete'=>array('label'=>'Delete','link'=>'deletecategory.php','params'=>array('cid'=>'cid'),'attributes'=>array('class'=>'btn btn-success'))
-    
-    );
+        while($row = mysqli_fetch_assoc($result)){?>
+      <tr> 
+        <td  style=" font-size:20px;"> <?php echo $row['id'] ?> </td>
+          <td  style=" font-size:20px;"> <?php echo $row['name'] ?> </td>
+          <td>
+              <form action="reset.php?id=<?php echo $row['id']?>"  method="post"> 
+                 <input type="number" name="set" value="<?php echo $row['stocks']?>" style=" font-size:15px;width:10vh; height:5vh; text-align:center; margin-left:-3vh;" > <input type="submit" name="reset" value="reset" class="btn btn-success m-3" style="align-item:center;  margin-left:5vh; ">
+              </form>
+         </td>
 
-    $config=array(
-        'srno'=>true,
-        'hiddenfields'=>array('cid'),
-        'actions_td'=>false,
-       
-        
-    );
-
-   
-   $join=array(
-        
-    );
-     $fields=array('cid','categoryname');
-
-    $users=$dao->selectAsTable($fields,'category',"status=1",null,$actions,$config);
-    
-    echo $users;
-                    
-                    
-                   
-    
-?>
-
+      </tr>
+     <?php }?>
     </table>
   </div>
   

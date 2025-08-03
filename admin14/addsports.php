@@ -271,9 +271,9 @@ echo $file->errors();
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="pages/icons/feather-icons.html">
+          <a class="nav-link" href="viewoutofstocks.php">
               <i class="icon-help menu-icon"></i>
-              <span class="menu-title">Icons</span>
+              <span class="menu-title">Out of Stock Items</span>
             </a>
           </li>
           <li class="nav-item">
@@ -463,7 +463,7 @@ echo $file->errors();
     );
      $fields=array('id','name','tech','color','playlevel','size','quality','price','image');
 
-    $users=$dao->selectAsTable($fields,'additems',"status=1",null,$actions,$config);
+    $users=$dao->selectAsTable($fields,'additems',"status=1 and stocks!=0",null,$actions,$config);
     echo $users;
                     
                     

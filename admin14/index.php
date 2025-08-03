@@ -4,7 +4,7 @@
 $sql1 = "select * from additems where status=1;";
 $table1 = mysqli_query($conn,$sql1); 
 
-$sql2 = "select * from additems where status=2;";
+$sql2 = "select * from additems where stocks=0;";
 $table2 = mysqli_query($conn,$sql2); 
 
 $sql3 = "select * from category where status=1;";
@@ -181,9 +181,9 @@ $table3 = mysqli_query($conn,$sql3);
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="pages/icons/feather-icons.html">
+            <a class="nav-link" href="viewoutofstocks.php">
               <i class="icon-help menu-icon"></i>
-              <span class="menu-title">Icons</span>
+              <span class="menu-title">Out of Stock Items</span>
             </a>
           </li>
           <li class="nav-item">
@@ -228,7 +228,7 @@ $table3 = mysqli_query($conn,$sql3);
                           <h4 class="card-title">Total Available Sports Items</h4>
                           <p>23% increase in conversion</p>
                           <h4 class="text-dark font-weight-bold mb-2"><?php echo $table1->num_rows; ?> Records</h4>
-                          <h4 class="card-title" style="margin-top:8vh; position:absolute;">total Un Available Sports Items</h4>
+                          <h4 class="card-title" style="margin-top:8vh; position:absolute;">Out of Stock Items</h4>
                           <p style="margin-top:11vh; position:absolute;">23% increase in conversion</p>
                           <h4 class="text-dark font-weight-bold mb-2" style="margin-top:15vh; position:absolute;"><?php echo $table2->num_rows; ?> Records</h4>
                           <canvas id="customers"></canvas>
