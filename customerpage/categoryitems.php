@@ -42,7 +42,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>MyResume Bootstrap Template - Index</title>
+  <title>FauGet - Sports Mart</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -119,6 +119,7 @@
   
    
    <button onclick="account()"  class="account bi-person   d-xl-inline-flex column-gap-sm-2"  ><p style="margin-top: 7px; "><?php echo $user; ?></p></button>
+     <span class="notification-dot" id="msgDot"></span>
    <div id="accountid"  style="border: none; background:rgba(61, 61, 61, 0.52);width:35vh; color:aliceblue; border-radius:8px; margin-left:1px; margin-top:39vh; height:38vh; text-align:center; position:fixed;display:none;">
     <h6 style="margin-top: 40px; margin-left:1vh; font-family:monospace; font-size:18px;">Buy History:</h6> 
      <button  onclick="bill()"  class="rounded bi-cart-check-fill cart"style="height:5vh;" ></button> 
@@ -153,7 +154,7 @@
  <?php 
             $cat_id = $_GET['cat_id'];
  
-        $dis="SELECT * FROM `additems` where `category` = '$cat_id' and `status` = 1;";
+        $dis="SELECT * FROM `additems` where `category` = '$cat_id' and `status` = 1 and `stocks` != 0;";
               $result=mysqli_query($conn,$dis);
               if($result->num_rows > 0){
             while($item_row=mysqli_fetch_assoc($result))
@@ -391,6 +392,9 @@
 
 
  function SubmitCart(product) {
+   document.getElementById("msgDot").style.display = "block";
+  localStorage.setItem("shownotify","true");
+  
     const data = `name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.image)}&price=${encodeURIComponent(product.price)}&item_id=${encodeURIComponent(product.id)}`;
 
     fetch("insertcart.php", {
@@ -501,7 +505,7 @@ function cartbox(){
 
       const closeid = document.getElementById("shoping-ground");                                                                      
     
-      window.history.back();
+      window.location.href = "mainpage.php";
     }
 
     function Closebar_bill(){
@@ -563,6 +567,7 @@ function cartbox(){
 
     function account() {
       const ac_id = document.getElementById("accountid");
+       document.getElementById("msgDot").style.display = "none";  
       if (ac_id.style.display === "none") {
         ac_id.style.display = "flex"; // Show the bar
     
@@ -624,6 +629,22 @@ function CloseBar(){
 }
   </script>
    <style>
+
+
+
+ .notification-dot {
+      position: fixed;
+      margin-left:14vh;
+      margin-top:-12vh;
+      width: 12px;
+      height: 12px;
+      background-color: rgba(165, 89, 13, 1);
+      border-radius: 50%;
+      border: 2px solid white;
+      display: none; /* Hidden by default */
+    }
+
+    
     @font-face {
       font-family: 'ROG';
       src: url('assets/rogfont.ttf')

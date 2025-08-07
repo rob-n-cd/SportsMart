@@ -415,7 +415,7 @@ echo $file->errors();
       </form>
 
 
-    <div class="container_gray_bg navbar-brand text-center" style=" margin-left:-95vh; margin-top:9vh;" id="home_feat_1">
+    <div class="container_gray_bg navbar-brand text-center" style=" margin-left:-100vh; margin-top:9vh;" id="home_feat_1">
     <div class="container">
     	<div class="row">
             <div class="col-md-12">

@@ -44,14 +44,12 @@
                   <i class="icon-search"></i>
                 </span>
               </div>
-             <h1>User's Data</h1>
+             <h1>Request Data</h1>
             </div>
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-          <form action="add_register_data.php"  method="post"> 
-                  <input type="submit" name="addusers" value="Add Users" class="btn btn-success m-3" style=" align-item:center;   margin-left:5vh; ">
-              </form>
+         
           <li class="nav-item dropdown d-flex">
             <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
               <i class="icon-air-play mx-0"></i>
@@ -207,7 +205,7 @@
 
 
          <?php
-        $sql = "select * from register where status=2;";
+        $sql = "select * from register where status=1;";
         $result = mysqli_query($conn,$sql);
       ?>
 
@@ -241,8 +239,8 @@
                   <td  style=" font-size:20px;"> <?php echo $row['phonenumber'] ?> </td>
                     <td  style=" font-size:20px;"> <?php echo $row['gender'] ?> </td>
           <td>
-              <form action="reject.php?id=<?php echo $row['id']?>"  method="post"> 
-                  <input type="submit" name="reject" value="reject" class="btn btn-success m-3" style="align-item:center; background:red; border:none;  margin-left:5vh; ">
+              <form action="accept.php?id=<?php echo $row['id']?>"  method="post"> 
+                  <input type="submit" name="accept" value="Accept" class="btn btn-success m-3" style="align-item:center;   margin-left:5vh; ">
               </form>
          </td>
 

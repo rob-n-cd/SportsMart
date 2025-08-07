@@ -65,7 +65,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>MyResume Bootstrap Template - Index</title>
+  <title>FauGet - Sports Mart</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -142,6 +142,7 @@
   
    
    <button onclick="account()"  class="account bi-person   d-xl-inline-flex column-gap-sm-2"  ><p style="margin-top: 7px; "><?php echo $user; ?></p></button>
+     <span class="notification-dot" id="msgDot"></span>
    <div id="accountid"  style="border: none; background:rgba(61, 61, 61, 0.52);width:35vh; color:aliceblue; border-radius:8px; margin-left:1px; margin-top:39vh; height:38vh; text-align:center; position:fixed;display:none;">
     <h6 style="margin-top: 40px; margin-left:1vh; font-family:monospace; font-size:18px;">Buy History:</h6> 
      <button  onclick="bill()"  class="rounded bi-cart-check-fill cart"style="height:5vh;" ></button> 
@@ -486,6 +487,7 @@
 
 
  function SubmitCart(product) {
+   document.getElementById("msgDot").style.display = "block";
     const data = `name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.image)}&price=${encodeURIComponent(product.price)}&item_id=${encodeURIComponent(product.id)}`;
 
     fetch("insertcart.php", {
@@ -553,7 +555,7 @@
 
 
 function cartbox(){
-   const cartbox = document.getElementById("cartbox");                                                                      
+   const cartbox = document.getElementById("cartbox");                                                                    
       if(cartbox.style.display==="none"){
         cartbox.style.display = "block";
         } else {
@@ -659,8 +661,15 @@ function cartbox(){
       }
     }
 
+  
+     if(localStorage.getItem("shownotify") === "true"){
+      document.getElementById("msgDot").style.display = "block";
+      localStorage.removeItem("shownotify");
+     }
+
     function account() {
       const ac_id = document.getElementById("accountid");
+       document.getElementById("msgDot").style.display = "none";  
       if (ac_id.style.display === "none") {
         ac_id.style.display = "flex"; // Show the bar
     
@@ -722,6 +731,8 @@ function CloseBar(){
 }
   </script>
    <style>
+
+
     @font-face {
       font-family: 'ROG';
       src: url('assets/rogfont.ttf')
@@ -767,7 +778,17 @@ function CloseBar(){
 
 .dropdown-content a:hover {background-color: #ddd;}
 
-
+ .notification-dot {
+      position: fixed;
+      margin-left:14vh;
+      margin-top:-12vh;
+      width: 12px;
+      height: 12px;
+      background-color: rgba(165, 89, 13, 1);
+      border-radius: 50%;
+      border: 2px solid white;
+      display: none; /* Hidden by default */
+    }
 
 
     .delete_cart{border-radius:4px;margin-top:-10vh;margin-left:3vh; position:related; color:black;}

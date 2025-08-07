@@ -60,7 +60,7 @@ $sql = "select * from register;";
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>MyResume Bootstrap Template - Index</title>
+  <title>FauGet - Sports Mart</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -300,6 +300,9 @@ $sql = "select * from register;";
         if($password != $row['password'])
         {
          echo" <h7 style='color:white; position:fixed; margin-top:-48px; margin-left:-19vh;'>Password:</h7><label style='color:red; position:fixed; margin-top:-48px; margin-left:-8vh;'>wrong</label>";
+      }
+      elseif($row['status'] != 2){
+          echo" <h7 style='color:white; position:fixed; margin-top:-48px; margin-left:-19vh;'>Note:</h7><label style='color:yellow; position:fixed; margin-top:-54px; margin-left:-12vh;'>Wait for<br> conform</label>";
       }
       else
       {
