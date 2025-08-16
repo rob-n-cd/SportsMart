@@ -308,7 +308,7 @@ $sql = "select * from register;";
       {
           
         $_SESSION['user'] = $username;
-          header('Location:mainpage.php');
+          header('Location:frontpage.php');
           
       }
      }

@@ -6,26 +6,15 @@
     $res = mysqli_query($conn,$sql);
     $row = mysqli_fetch_assoc($res);
 
-    if(isset($_POST['register']))
- {
-       $name =$_POST['name'];
-      $email = $_POST['email'];
-      $phone = $_POST['phone'];
-      $address =$_POST['address'];
-      $flag = 0;
-     
-
    
-      $sql ="UPDATE `register` SET `email`='$email',`phonenumber`='$phone',`address`='$address',`name`='$name' where `username` = '$user';";
-      if($conn->query($sql)){
-      
-      header("Location: mainpage.php"); 
-      }
-    exit();
-  }
    ?>
 
 
+
+ 
+
+
+        
 
 
 
@@ -409,7 +398,7 @@
       <span  class ="alert-link" style="margin-left:10px;margin-top:-20px; position:related"><label class="col-5">Item Name:</label><label><?php echo $rowcart['name'];?></label><span><br><br>
         <span   class ="alert-link"  style="margin-left:10px;margin-top:-2px;"><label class="col-5">Price:</label><label class="price"><?php echo $rowcart['price'];?></label></span>
      </div>
-     <form action='booking.php?book_id=<?php echo $rowcart['item_id'];?>' method="post" stlye="position:fixed;">
+     <form action='cartorder.php?book_id=<?php echo $rowcart['item_id'];?>' method="post" stlye="position:fixed;">
      <div style="position:related;width:36vh;height:21vh;background:rgba(100, 122, 148, 0.79); margin-top:40px;margin-left:35px;border-radius:10px;">
       <label class ="alert-link" style=" margin-left:30px; margin-top:15px;" >Quantity:</label> 
        <div class="quantity-box" style="margin-top:-25px; margin-left:16vh;">
@@ -428,7 +417,7 @@
     <?php }
     else
     {?>
-    <input type="submit" name="order" value="submit"  style="width:10vh; margin-left:170px; margin-top:2vh;"  readonly>
+    <input type="submit" name="ordercart" value="submit"  style="width:10vh; margin-left:170px; margin-top:2vh;">
       <?php
     }?>
 
@@ -463,6 +452,14 @@
   const result = quantity * price;
   document.getElementById('result').value = result.toFixed(0);
    });*/
+
+       window.onload = function(){
+        const msg = localStorage.getItem("showAlert");
+        if(msg){
+          alert(msg);
+          localStorage.removeItem("showAlert");
+        }
+      };
 
   document.querySelectorAll('.product').forEach(product => {
     const minusBtn = product.querySelector('.minus');
@@ -606,7 +603,7 @@ function cartbox(){
 
       document.getElementById("backButton").addEventListener("click", function() {
       // Navigate back to Page A
-      window.location.href = "mainpage.php";
+      window.location.href = "frontpage.php";
     });
 
     function Closebar_Order(){

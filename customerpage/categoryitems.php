@@ -6,23 +6,7 @@
     $res = mysqli_query($conn,$sql);
     $row = mysqli_fetch_assoc($res);
 
-    if(isset($_POST['register']))
- {
-       $name =$_POST['name'];
-      $email = $_POST['email'];
-      $phone = $_POST['phone'];
-      $address =$_POST['address'];
-      $flag = 0;
-     
-
    
-      $sql ="UPDATE `register` SET `email`='$email',`phonenumber`='$phone',`address`='$address',`name`='$name' where `username` = '$user';";
-      if($conn->query($sql)){
-      
-      header("Location: mainpage.php"); 
-      }
-    exit();
-  }
    ?>
 
 
@@ -395,6 +379,7 @@
    document.getElementById("msgDot").style.display = "block";
   localStorage.setItem("shownotify","true");
   
+  
     const data = `name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.image)}&price=${encodeURIComponent(product.price)}&item_id=${encodeURIComponent(product.id)}`;
 
     fetch("insertcart.php", {
@@ -505,7 +490,7 @@ function cartbox(){
 
       const closeid = document.getElementById("shoping-ground");                                                                      
     
-      window.location.href = "mainpage.php";
+      window.location.href = "frontpage.php";
     }
 
     function Closebar_bill(){

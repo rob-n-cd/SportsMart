@@ -311,40 +311,31 @@
         </div>
       </div>
     <div class='card-group column-gap-lg-5' style='margin-top: -11vh; margin-left:5vh; background:rgba(39, 38, 41, 0.605) ;width:45vh;  height:40px; border-radius:45px;  text-align:center;'><h4 class='bi-check-circle' style=' margin-top:10px;margin-left:4vh;font-size:smaller;color:rgb(62, 235, 18)'>&nbsp;Order</h4><h4 style=' margin-top:10px; font-size:smaller;color:rgb(62, 235, 18);' class='bi-check-circle'>&nbsp;Booking</h4><h4 style='  margin-top:10px; font-size:smaller;color:white' class='bi-x-circle-fill'>&nbsp;Payment</h4></div>
-    <div class='cross' onclick='Closebar_Booking()'>&times;</div>
+        </form>
+    <div class='cross' onclick="Closebar_Booking(<?php echo htmlspecialchars(json_encode($book_row)); ?>)">&times;</div>
   </div> 
-    </form>
+
   </div>
-   
-
-
-    
-  
-
   </div> 
   </div>
-
-
-
-
- 
-
-
- 
   
-    
 
   <script>
 
+
+
+    function Closebar_Booking(product){
+      const data = `stocks=${encodeURIComponent(product.stocks)}&item_id=${encodeURIComponent(product.id)}`;
+
+    fetch("up_stocks.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: data
+    });
+   window.history.back();
     
-   
-  
-
-
-
-    function Closebar_Booking(){
-
-     window.history.back();
     }
 
     

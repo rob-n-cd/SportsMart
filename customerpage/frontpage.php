@@ -19,7 +19,7 @@
       $sql ="UPDATE `register` SET `email`='$email',`phonenumber`='$phone',`address`='$address',`name`='$name' where `username` = '$user';";
       if($conn->query($sql)){
       
-      header("Location: mainpage.php"); 
+      header("Location: frontpage.php"); 
       }
     exit();
   }
@@ -117,7 +117,7 @@
    <div class="nav-container">
     <nav class="nav-btns col-form-label-lg">
       <a href="#"class="home">Home</a>
-      <a class="Shoping-Page" onclick="shopbox()">Shoping</a>
+      <a href="mainpage.php" class="Shoping-Page">Shoping</a>
       <a href="#" class="contact">Contact</a>
       <a href="#" class="about">About</a>
     </nav>
@@ -157,7 +157,7 @@
   </div>
 
 
-  <div id="shoping-ground" style="display: block; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
+  <div id="shoping-ground" style="display: none; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
    <div  class="items-box gzoomIn bg-dark" style="display: flex; justify-content:center; margin-left:46vh; align-items:center; position:fixed;  background:rgb(185, 185, 185); 
     width:160vh; height:95vh; border-radius:9px; overflow:hidden;overflow-y:scroll;">  
    <div class="m-auto row">
@@ -479,7 +479,7 @@
 
 
  function SubmitCart(product) {
-   document.getElementById("msgDot").style.display = "block";
+    document.getElementById("msgDot").style.display = "block";
     localStorage.setItem("shownotify","true");
     const data = `name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.image)}&price=${encodeURIComponent(product.price)}&item_id=${encodeURIComponent(product.id)}`;
 
@@ -589,8 +589,9 @@ function cartbox(){
 
     function Closebar(){
 
-      
-      window.location.href = "frontpage.php";
+      const closeid = document.getElementById("shoping-ground");                                                                      
+    
+      window.location.href = "cart_box.php";
     }
 
     function Closebar_bill(){
@@ -653,7 +654,7 @@ function cartbox(){
   
      if(localStorage.getItem("shownotify") === "true"){
       document.getElementById("msgDot").style.display = "block";
-     
+      localStorage.removeItem("shownotify");
      }
 
     function account() {
