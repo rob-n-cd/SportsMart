@@ -15,7 +15,7 @@
     {
       $_SESSION['quandity'] = $_POST['quandity'];
       $_SESSION['total'] = $_POST['total'];
-    }
+    
     
    $_SESSION['id']  =  $book_id = $_GET['book_id'];
           $book_sql = "SELECT * FROM `additems` where `id` = $book_id;";
@@ -40,7 +40,8 @@
                
             </script>
          
-         <?php }?>
+         <?php }
+         }?>
 
 
         
@@ -59,7 +60,7 @@
           $booking_sql = "INSERT INTO  `booking` (`bname`,`address`,`location`,`pincode`,`itemname`,`price`,`date`) values('$name','$address','$location','$pincode','$selectItem','$book_price','$book_date');";
           if(mysqli_query($conn,$booking_sql))
           {
-             header('Location: payment.php?pay_id='.$book_id.'');
+             header('Location: payment.php?pay_id='.$_SESSION['id'].'');
           }
           else
           echo"alert('Booking failed try again!');";

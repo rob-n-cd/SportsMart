@@ -398,7 +398,7 @@
       <span  class ="alert-link" style="margin-left:10px;margin-top:-20px; position:related"><label class="col-5">Item Name:</label><label><?php echo $rowcart['name'];?></label><span><br><br>
         <span   class ="alert-link"  style="margin-left:10px;margin-top:-2px;"><label class="col-5">Price:</label><label class="price"><?php echo $rowcart['price'];?></label></span>
      </div>
-     <form action='cartorder.php?book_id=<?php echo $rowcart['item_id'];?>' method="post" stlye="position:fixed;">
+     <form action='booking.php?book_id=<?php echo $rowcart['item_id'];?>' method="post" stlye="position:fixed;">
      <div style="position:related;width:36vh;height:21vh;background:rgba(100, 122, 148, 0.79); margin-top:40px;margin-left:35px;border-radius:10px;">
       <label class ="alert-link" style=" margin-left:30px; margin-top:15px;" >Quantity:</label> 
        <div class="quantity-box" style="margin-top:-25px; margin-left:16vh;">
@@ -417,7 +417,7 @@
     <?php }
     else
     {?>
-    <input type="submit" name="ordercart" value="submit"  style="width:10vh; margin-left:170px; margin-top:2vh;">
+    <input type="submit" name="order" value="submit"  style="width:10vh; margin-left:170px; margin-top:2vh;">
       <?php
     }?>
 

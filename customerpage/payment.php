@@ -18,24 +18,23 @@
           $pay_row=mysqli_fetch_assoc($pay_result);
 ?>
 
- <?php
-    
-        if(isset($_POST['booking'])){
-          $name = $_POST['name'];
-          $location = $_POST['loc'];
-          $address = $row['address'];
-          $pincode = $_POST['pin'];
-          $selectItem =$_POST['itemname'];
-          $pay_price = $_POST['price'];
-          $pay_date = $_POST['date'];
-          $pay_sql = "INSERT INTO  `booking` (`bname`,`address`,`location`,`pincode`,`itemname`,`price`,`date`) values('$name','$address','$location','$pincode','$selectItem','$pay_price','$pay_date');";
-          if(mysqli_query($conn,$pay_sql))
-             header('Location: book.php');
-          else
-          echo"alert('Booking failed try again!');";
-          
-        }
-    ?>
+
+
+<?php
+  if(isset($_POST['pay']))
+  {
+    $holder =$_POST['holder'];
+    $cardnumber= $_POST['cardnumber'];
+    $price = $_POST['price'];
+    $cvv =$_POST['cvv'];
+    $username = $_SESSION['user'];
+    $sql = "INSERT INTO `payment` (`holdername`, cardnumber, price,cvv,`username`) VALUES ('$holder', $cardnumber, $price,$cvv,'$username')";
+    if ($conn->query($sql) === TRUE) 
+      header('Location: completepayment.php');
+
+  }
+?>
+  
    
 
 
@@ -252,16 +251,18 @@
       
       
       <div style="width:85vh; height:81vh; background:rgba(39, 38, 41, 0.605) ; position:fixed; margin-left:calc(26%); margin-top:-47vh; border-radius:15px;">
-      <hr  style="width: 80vh; height:15vh; background:#939598; position:fixed;margin-left:3vh; border-radius:15px; margin-top:3vh;">
+        <form action=""method="post" style="position:absolute;">
+      <div  style="width: 80vh; height:15vh; background:rgba(114, 114, 114, 0.65); position:fixed;margin-left:3vh; border-radius:15px; margin-top:4vh;"></div>
        <div style="text-align:center;margin-top:25vh;">
-        <label style="color:white; margin-right:58vh;font-size:18px;">Holder Name &nbsp</label><br><input type="text" name="name" placeholder="Enter your Name" class="payinput" style="width:75vh; height:6vh; border-radius:10px;  border:none;background:rgba(135, 135, 135, 0.29); color:white; font-size:3vh;"><br><br><br>
-        <label style="color:white;margin-right:58vh;font-size:18px;">Card Number &nbsp</label><br><input type="number" name="name" placeholder="0000000 0000 00000 000"class="payinput" style="width:75vh; height:6vh; border-radius:10px;  border:none;background:rgba(135, 135, 135, 0.29); color:white; font-size:3vh;"><br><br><br>
-        <label style="color:white;margin-right:58vh;font-size:18px;">Expiry date &nbsp</label><input type=date name="name" placeholder="Number" class="payinput" style="width:40vh; height:6vh;  margin-right:7vh; border-radius:10px;  border:none;background:rgba(135, 135, 135, 0.29); color:white; font-size:3vh;">
-        <input type="text" name="name" placeholder="Cvv" class="payinput"  style="width:20vh; height:6vh;  margin-right:7vh; border-radius:10px;  border:none;background:rgba(135, 135, 135, 0.29); color:white; font-size:3vh;">
+        <label style="color:white; margin-right:58vh;font-size:18px;">Holder Name &nbsp</label><br><input type="text" name="holder" required placeholder="Enter your Name" class="payinput" style="width:75vh; height:6vh; border-radius:10px;  border:none;background:rgba(135, 135, 135, 0.29); color:white; font-size:3vh;"><br><br><br>
+        <label style="color:white;margin-right:58vh;font-size:18px;">Card Number &nbsp</label><br><input type="number" name="cardnumber" required placeholder="0000000 0000 00000 000"class="payinput" style="width:75vh; height:6vh; border-radius:10px;  border:none;background:rgba(135, 135, 135, 0.29); color:white; font-size:3vh;"><br><br><br>
+        <label style="color:white;margin-right:58vh;font-size:18px;">Item Price &nbsp</label><input type="text" name="price" value="<?php echo $_SESSION['total'];?>"  readonly class="payinput" style="width:40vh; height:6vh;  margin-right:7vh; border-radius:10px;  border:none;background:rgba(135, 135, 135, 0.29); color:white; font-size:3vh;">
+        <input type="text" name="cvv" placeholder="Cvv" class="payinput"  style="width:20vh; height:6vh;  margin-right:7vh; border-radius:10px;  border:none;background:rgba(135, 135, 135, 0.29); color:white; font-size:3vh;">
        <br><br><br>
-       <input type="submit" name="name" value="Payment"  style="width:50vh; height:5vh;  margin-right:7vh; border-radius:10px;  border:none;background:white; color:black; font-size:3vh;">
+       <input type="submit" name="pay" value="Payment"  style="width:50vh; height:5vh;  margin-right:7vh; border-radius:10px;  border:none;background:white; color:black; font-size:3vh;">
       </div>
       </div>
+      </form>
       
     <div class="card-group column-gap-lg-5" style="margin-top: 7vh; margin-left:5vh; background:rgba(39, 38, 41, 0.605) ;width:39vh;  height:35px; border-radius:45px;  text-align:center;"><h4 class="bi-check-circle" style=" margin-top:10px;margin-left:3vh;font-size:smaller;color:rgb(62, 235, 18)">&nbsp;Order</h4><h4 style=" margin-top:10px;margin-left:-3vh; font-size:smaller;color:rgb(62, 235, 18);" class="bi-check-circle">&nbsp;Booking</h4><h4 style="  margin-top:10px; margin-left:-4vh; font-size:smaller;color:rgb(62, 235, 18);" class="bi-check-circle">&nbsp;Payment</h4></div>
    

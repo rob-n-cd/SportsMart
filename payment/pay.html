@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic UPI QR Code Payment</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+        }
+        .container {
+            max-width: 480px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            text-align: center;
+        }
+        /* Changed #qrcode to target a canvas element */
+        #qrcode {
+            display: block; /* Changed to block for better centering, inline-block also works */
+            margin: 24px auto;
+            padding: 10px;
+            background-color: #f7fafc; /* Lighter background for QR code */
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        #timerDisplay {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ef4444; /* Red for timer */
+            margin-top: 20px;
+        }
+        .payment-info p {
+            font-size: 1rem;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .vpa-highlight {
+            font-weight: 600;
+            color: #3b82f6; /* Blue for VPA */
+        }
+        .amount-highlight {
+            font-weight: 600;
+            color: #10b981; /* Green for Amount */
+        }
+        .hint-text {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-top: 16px;
+        }
+        .refresh-button {
+            background-color: #4f46e5; /* Indigo */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 24px;
+        }
+        .refresh-button:hover {
+            background-color: #4338ca; /* Darker indigo */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Scan to Pay with UPI</h1>
+        <p class="text-gray-600 mb-6">Open any UPI app and scan the QR code below.</p>
+
+        <!-- Changed from div to canvas for QRious library compatibility -->
+        <canvas id="qrcode"></canvas>
+
+        <div class="payment-info mt-6">
+            <p>Paying to: <span class="vpa-highlight" id="displayVPA">loading...</span></p>
+            <p>Amount: ₹<span class="amount-highlight" id="displayAmount">0.00</span></p>
+        </div>
+
+        <div id="timerDisplay"></div>
+
+        <p class="hint-text">This QR code will expire in <span id="initialTimerValue">60</span> seconds. Please complete your payment within the time limit.</p>
+
+        <button id="refreshQrCode" class="refresh-button">Generate New QR</button>
+    </div>
+
+    <!-- QR Code Library (qrious.js for simplicity, can use others like qrcode.js) -->
+    <script src="https://unpkg.com/qrious@4.0.2/dist/qrious.js"></script>
+
+    <script>
+        // Constants for UPI details
+        const MERCHANT_VPA = 'fauget252003@bank'; // Replace with your actual VPA
+        const MERCHANT_NAME = 'FauGet';
+        let PAYMENT_AMOUNT = 15.00; // Example amount, can be dynamic
+        const PAYMENT_NOTE = 'Order Payment';
+
+        // Timer variables
+        const INITIAL_TIMER_SECONDS = 60; // QR code validity in seconds
+        let timerSeconds = INITIAL_TIMER_SECONDS;
+        let countdownInterval;
+
+        // HTML elements
+        const qrcodeContainer = document.getElementById('qrcode');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const displayVPA = document.getElementById('displayVPA');
+        const displayAmount = document.getElementById('displayAmount');
+        const initialTimerValueSpan = document.getElementById('initialTimerValue');
+        const refreshButton = document.getElementById('refreshQrCode');
+
+        // Initialize QRious
+        const qr = new QRious({
+            element: qrcodeContainer,
+            size: 250, // QR code size
+            value: 'upi://pay?pa=', // Initial value, will be updated
+            level: 'H' // Error correction level (L, M, Q, H)
+        });
+
+        // Function to generate the UPI deep link
+        function generateUpiDeepLink(vpa, name, amount, note, transactionId = '') {
+            let upiLink = `upi://pay?pa=${vpa}&pn=${encodeURIComponent(name)}&am=${amount.toFixed(2)}&cu=INR`;
+            if (note) {
+                upiLink += `&tn=${encodeURIComponent(note)}`;
+            }
+            if (transactionId) {
+                upiLink += `&tid=${transactionId}`; // Unique transaction ID for tracking
+            }
+            return upiLink;
+        }
+
+        // Function to update and display the QR code
+        function updateQrCode() {
+            // In a real application, you might fetch these dynamically from your PHP backend
+            // Example:
+            // fetch('your_php_backend.php?action=getPaymentDetails')
+            // .then(response => response.json())
+            // .then(data => {
+            //     PAYMENT_AMOUNT = data.amount;
+            //     const transactionId = data.transactionId; // Generated by PHP
+            //     const upiLink = generateUpiDeepLink(MERCHANT_VPA, MERCHANT_NAME, PAYMENT_AMOUNT, PAYMENT_NOTE, transactionId);
+            //     qr.value = upiLink;
+            //     displayVPA.textContent = MERCHANT_VPA;
+            //     displayAmount.textContent = PAYMENT_AMOUNT.toFixed(2);
+            // });
+
+            // For this client-side example, we'll just use the predefined values
+            const transactionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15); // Simple unique ID
+            const upiLink = generateUpiDeepLink(MERCHANT_VPA, MERCHANT_NAME, PAYMENT_AMOUNT, PAYMENT_NOTE, transactionId);
+
+            qr.value = upiLink;
+            displayVPA.textContent = MERCHANT_VPA;
+            displayAmount.textContent = PAYMENT_AMOUNT.toFixed(2);
+
+            console.log("Generated UPI Link:", upiLink); // For debugging
+        }
+
+        // Function to start the countdown timer
+        function startTimer() {
+            clearInterval(countdownInterval); // Clear any existing timer
+            timerSeconds = INITIAL_TIMER_SECONDS;
+            updateTimerDisplay(); // Initial display
+
+            countdownInterval = setInterval(() => {
+                timerSeconds--;
+                updateTimerDisplay();
+
+                if (timerSeconds <= 0) {
+                    clearInterval(countdownInterval);
+                    timerDisplay.textContent = 'QR Expired!';
+                    // Optionally, you might want to clear the QR code or visually obscure it
+                    // qr.value = ''; // Clears the QR code
+                    // qrcodeContainer.style.opacity = '0.5';
+                    refreshButton.disabled = false; // Enable refresh button
+                }
+            }, 1000);
+            refreshButton.disabled = true; // Disable refresh button while timer is active
+        }
+
+        // Function to update the timer display
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            timerDisplay.textContent = `Expires in: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Event listener for refreshing the QR code
+        refreshButton.addEventListener('click', () => {
+            console.log("Refreshing QR Code...");
+            // Optionally, increment amount for demo purposes
+            PAYMENT_AMOUNT += 0.50;
+            updateQrCode();
+            startTimer();
+        });
+
+        // Initialize on page load
+        window.onload = function() {
+            initialTimerValueSpan.textContent = INITIAL_TIMER_SECONDS; // Display initial timer value in hint
+            updateQrCode();
+            startTimer();
+        };
+
+    </script>
+</body>
+</html>
