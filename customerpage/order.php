@@ -13,7 +13,7 @@
 
     <?php
     $order_id = htmlspecialchars($_GET['order_id']); 
- 
+    $_SESSION['cart_flag'] = 1;
     $order_sql = "SELECT * FROM `additems` where `id` = $order_id;";
     $order_result =  mysqli_query($conn,$order_sql);
     $order_row=mysqli_fetch_assoc($order_result);

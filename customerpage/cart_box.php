@@ -385,6 +385,7 @@
   
    $sqlcart = "select * from cart;";
     $cart = mysqli_query($conn,$sqlcart); 
+     $_SESSION['cart_flag'] = 0;
     
     if($cart->num_rows > 0){
      while($rowcart = mysqli_fetch_assoc($cart))

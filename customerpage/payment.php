@@ -30,7 +30,7 @@
     $username = $_SESSION['user'];
     $sql = "INSERT INTO `payment` (`holdername`, cardnumber, price,cvv,`username`) VALUES ('$holder', $cardnumber, $price,$cvv,'$username')";
     if ($conn->query($sql) === TRUE) 
-      header('Location: completepayment.php');
+      header('Location: insert_buy_history.php');
 
   }
 ?>
