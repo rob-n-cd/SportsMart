@@ -21,6 +21,7 @@
           $book_sql = "SELECT * FROM `additems` where `id` = $book_id;";
           $book_result =  mysqli_query($conn,$book_sql);
           $book_row=mysqli_fetch_assoc($book_result);
+            $_SESSION['image'] = $book_row['image'];
            
           if( $_SESSION['quandity'] <= $book_row['stocks'] ){
             $update_stock = $book_row['stocks'] - $_SESSION['quandity'];
@@ -57,6 +58,7 @@
           $selectItem =$_POST['itemname'];
           $book_price = $_SESSION['total'];
           $book_date = $_POST['date'];
+        
           $booking_sql = "INSERT INTO  `booking` (`bname`,`address`,`location`,`pincode`,`itemname`,`price`,`date`) values('$name','$address','$location','$pincode','$selectItem','$book_price','$book_date');";
           if(mysqli_query($conn,$booking_sql))
           {

@@ -145,8 +145,8 @@
      <span class="notification-dot" id="msgDot"></span>
    <div id="accountid"  style="border: none; background:rgba(61, 61, 61, 0.52);width:35vh; color:aliceblue; border-radius:8px; margin-left:1px; margin-top:39vh; height:38vh; text-align:center; position:fixed;display:none;">
     <h6 style="margin-top: 40px; margin-left:1vh; font-family:monospace; font-size:18px;">Buy History:</h6> 
-     <button id="myButton1"  onclick="bill()"  class="rounded bi-cart-check-fill cart"style="height:5vh;" ></button> 
-     <h5   style="margin-top: 120px; margin-left:-16vh; font-family:monospace;" >Cart box:</h5>
+     <button  onclick="bill()"  class="rounded bi-cart-check-fill cart"style="height:5vh;" ></button> 
+     <h5 style="margin-top: 120px; margin-left:-16vh; font-family:monospace;" >Cart box:</h5>
      <button  id="myButton" onclick="cartbox()"  class="rounded bi-cart-check-fill cart" style="height:5vh; margin-top:16vh;" ></button> 
      <a href="#" class="editaccount"  onclick="editprofile()"><u>Edit Account</u></a> 
     </div>
@@ -223,77 +223,60 @@
   </div>
 
  
+<?php  
+  $sql_buy_history = "select * from buyhistory order by id desc ;";
+    $result_buy_history = mysqli_query($conn,$sql_buy_history);  
+    
+   
+?>
 
 
-
-  <div id="bill-ground" style="display:none; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
+  <div id="bill-ground" style="display:flex; justify-content:center; align-items:center; position:fixed; margin-left:-10vh; width:200vh; height:95vh; background:transparent;">
     <div  class="items-box gzoomIn bg-dark" style="display: flex; justify-content:center; margin-left:44vh; align-items:center; position:fixed;  background:rgb(185, 185, 185);  width:160vh; height:95vh; border-radius:9px; overflow:hidden;overflow-y:scroll;">  
     <div class="m-auto row">
      <div class="col-4 carousel-fade p-5" > 
       <div style="width:120vh;height:100vh; background:transparant;position:relative"><h3 class="p-3 card" style="display: block; text-align:center; font-family:'Times New Roman', Times, serif;">Bill</h3>
-   
+    <?php   while($buy_history_row = mysqli_fetch_assoc($result_buy_history))
+     {  ?>
         <div style="width:120vh;height:55vh; background:rgb(255, 255, 255);position:relative">
+          
      <div style="width:120vh; height:55vh; background-color:transparent; border:4px solid rgba(44, 43, 43, 0.745);border-left:none;border-right:none;border-top:none;">
-      <img src="assets/img/barza.jpg" style="width: 26vh; height:36vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)"/>
+   
+      <img src='/SportsMart/upload/<?php echo $buy_history_row['item_image'];?>' style="width: 26vh; height:36vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)"/>
       <button onclick="cancel_from_cart()" type="submit" style="background:red;border-radius:2px;width:20px;height:9px;  display:block;margin-top:-43vh; margin-left:113vh;"></button>
        <div style="width:80vh; height:46vh; background-color:rgb(43, 91, 91);;  margin-top:2vh; margin-left:39vh; border-top-left-radius: 80px;border-bottom-left-radius:80px;">
         <div style="background-color: rgba(255, 0, 0, 0); width:75vh; margin-left:3vh; height:45vh;">
           <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; color:antiquewhite;font-family:monospace;">
-            <h5>Item Name:</h5> <label style="margin-left:6vh;font-size:18px;">Telstar Football</label>
+            <h5>Item Name:</h5> <label style="margin-left:6vh;font-size:18px;"><?php echo $buy_history_row['item_name']?></label>
+          </div>
+
+           <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-10vh; color:antiquewhite;font-family:monospace;">
+            <h5>Quantity:</h5> <label style="margin-left:72px; font-size:18px;"><?php echo $buy_history_row['quantity']?>/-</label>
           </div>
   
-          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-            <h5>Item Price:</h5> <label style="margin-left:72px; font-size:18px;">150/-</label>
+          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-10vh; color:antiquewhite;font-family:monospace;">
+            <h5>Item Price:</h5> <label style="margin-left:72px; font-size:18px;"><?php echo $buy_history_row['total_price']?>/-</label>
           </div>
   
-          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-            <h5>date of Purchased:</h5> <label style="margin-left:3vh;font-size:18px;">15-05-2024</label>
+          <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-10vh; color:antiquewhite;font-family:monospace;">
+            <h5>date of Purchased:</h5> <label style="margin-left:3vh;font-size:18px;"><?php echo $buy_history_row['date']?></label>
           </div>
         </div>
     </div>
      
-     
+  
     </div>
 
   
       </div>
 
-      <div style="width:120vh;height:55vh; background:rgb(255, 255, 255);position:relative">
-        <div style="width:120vh; height:55vh; background-color:transparent; border:4px solid rgba(44, 43, 43, 0.745);border-left:none;border-right:none;border-top:none;">
-         <img src="assets/img/addidasball.jpg" style="width: 26vh; height:36vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)"/>
-         <button onclick="cancel_from_cart()" type="submit" style="background:red;border-radius:2px;width:20px;height:9px;  display:block;margin-top:-43vh; margin-left:113vh;"></button>
-          <div style="width:80vh; height:46vh; background-color:rgb(43, 91, 91);  margin-top:2vh; margin-left:39vh; border-top-left-radius: 80px;border-bottom-left-radius:80px;">
-            <div style="background-color: rgba(255, 0, 0, 0); width:75vh; margin-left:3vh; height:45vh;">
-              <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; color:antiquewhite;font-family:monospace;">
-                <h5>Item Name:</h5> <label style="margin-left:6vh;font-size:18px;">Telstar Football</label>
-              </div>
-      
-              <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-                <h5>Item Price:</h5> <label style="margin-left:72px; font-size:18px;">150/-</label>
-              </div>
-      
-              <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
-                <h5>date of Purchased:</h5> <label style="margin-left:3vh;font-size:18px;">15-05-2024</label>
-              </div>
-            </div>
-        </div>
-     </div>
      
-    </div>
 
-    <div style="width:120vh;height:55vh; background:rgb(255, 255, 255);position:relative">
-      <div style="width:120vh; height:55vh; background-color:transparent; border:4px solid rgba(44, 43, 43, 0.745);border-left:none;border-right:none;border-top:none;">
-       <img src="assets/img/yonexy1.jpg" style="width: 26vh; height:36vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)"/>
-       <button onclick="cancel_from_cart()" type="submit" style="background:red;border-radius:2px;width:20px;height:9px;  display:block;margin-top:-43vh; margin-left:113vh;"></button>
-        <div style="width:80vh; height:46vh; background-color:rgb(43, 91, 91);;  margin-top:2vh; margin-left:39vh; border-top-left-radius: 80px;border-bottom-left-radius:80px;">
-      </div>
-   </div>
-   
-  </div>
+  
    
      
         
-
+   <?php }  ?>
         
      </div>
      </div>
@@ -478,28 +461,6 @@
     });
 
 
-     document.addEventListener("DOMContentLoaded", function() {
-      var actionBox = document.getElementById("bill-ground");
-      var myButton1 = document.getElementById("myButton1");
-      var action2Box = document.getElementById("accountid");
-      // If button was clicked earlier in this session, hide the action box
-      if (sessionStorage.getItem("buttonClicked")) {
-        actionBox.style.display = "none";
-      
-      }
-     
-       
-      // Add click handler to button (if it’s visible)
-      myButton1.addEventListener("click", function() {
-       
-        // Set a flag in sessionStorage so we know the button was clicked
-        sessionStorage.setItem("buttonClicked", "true");
-        // Navigate to Page B
-        window.location.href = "buy_history.php";
-      });
-    });
-
-
  function SubmitCart(product) {
     document.getElementById("msgDot").style.display = "block";
     localStorage.setItem("shownotify","true");
@@ -619,13 +580,7 @@ function cartbox(){
     function Closebar_bill(){
 
       const closeid = document.getElementById("bill-ground");                                                                      
-    
-      if(closeid.style.display==="flex")
-      {
-        closeid.style.display = "none";
-
-       
-      } 
+        window.location.href = "frontpage.php";
     }
 
     function Closebar_Cart(){

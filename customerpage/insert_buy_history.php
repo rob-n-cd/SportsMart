@@ -21,7 +21,7 @@ $pick_cart_row = "select * from cart where item_id= ".$cart_item.";";
   mysqli_query($conn,$delete_sql);
 
   
-  $pick_book_id = "select * from booking;";
+  $pick_book_id = "select * from booking order by id;";
     $run_book_id = mysqli_query($conn,$pick_book_id);  
      while($row_id = mysqli_fetch_assoc($run_book_id))
      {  
@@ -30,7 +30,7 @@ $pick_cart_row = "select * from cart where item_id= ".$cart_item.";";
         $_SESSION['book_id'] = $book_id;
 
 
-   $pick_pay_id = "select * from payment;";
+   $pick_pay_id = "select * from payment order by id;";
       $run_pay_id = mysqli_query($conn,$pick_pay_id);  
        while($row_pay_id = mysqli_fetch_assoc($run_pay_id))
         {  
@@ -42,7 +42,7 @@ $pick_cart_row = "select * from cart where item_id= ".$cart_item.";";
       $run_last_data = mysqli_query($conn,$last_data);
       $row_last =  mysqli_fetch_assoc($run_last_data);
       $item_name = $row_last['itemname'];
-      $price = $row_last['price'];
+      $price = $_SESSION['total'];
       $quantity =   $_SESSION['quandity'];
       $cust_name = $user;
       $location =$row_last['location'];
@@ -51,7 +51,8 @@ $pick_cart_row = "select * from cart where item_id= ".$cart_item.";";
       $date = $row_last['date'];
       $bid = $row_last['id'];
       $pid = $pay_id;
-      $insert_buy = " INSERT INTO `buyhistory` (`item_name`,total_price,quantity,`cust_name`,`location`,phone,pincode,`date`,book_id,pay_id) VALUES ('$item_name','$price','$quantity','$cust_name','$location','$phone','$pin_code','$date','$bid','$pid');";
+      $item_image = $_SESSION['image'];
+      $insert_buy = " INSERT INTO `buyhistory` (`item_name`,total_price,quantity,`cust_name`,`location`,phone,pincode,`date`,book_id,pay_id,`item_image`) VALUES ('$item_name','$price','$quantity','$cust_name','$location','$phone','$pin_code','$date','$bid','$pid','$item_image');";
       if(mysqli_query($conn,$insert_buy))
         header('Location:completepayment.php');
       else
@@ -61,7 +62,7 @@ $pick_cart_row = "select * from cart where item_id= ".$cart_item.";";
   else
   {  
   
-  $pick_book_id = "select * from booking;";
+  $pick_book_id = "select * from booking order by id;";
     $run_book_id = mysqli_query($conn,$pick_book_id);  
      while($row_id = mysqli_fetch_assoc($run_book_id))
      {  
@@ -70,7 +71,7 @@ $pick_cart_row = "select * from cart where item_id= ".$cart_item.";";
         $_SESSION['book_id'] = $book_id;
 
 
-   $pick_pay_id = "select * from payment;";
+   $pick_pay_id = "select * from payment order by id;";
       $run_pay_id = mysqli_query($conn,$pick_pay_id);  
        while($row_pay_id = mysqli_fetch_assoc($run_pay_id))
         {  
@@ -91,7 +92,8 @@ $pick_cart_row = "select * from cart where item_id= ".$cart_item.";";
       $date = $row_last['date'];
       $bid = $row_last['id'];
       $pid = $pay_id;
-      $insert_buy = " INSERT INTO `buyhistory` (`item_name`,total_price,quantity,`cust_name`,`location`,phone,pincode,`date`,book_id,pay_id) VALUES ('$item_name','$price','$quantity','$cust_name','$location','$phone','$pin_code','$date','$bid','$pid');";
+      $item_image = $_SESSION['image'];
+      $insert_buy = " INSERT INTO `buyhistory` (`item_name`,total_price,quantity,`cust_name`,`location`,phone,pincode,`date`,book_id,pay_id,`item_image`) VALUES ('$item_name','$price','$quantity','$cust_name','$location','$phone','$pin_code','$date','$bid','$pid','$item_image');";
       if(mysqli_query($conn,$insert_buy))
         header('Location:completepayment.php');
       else
