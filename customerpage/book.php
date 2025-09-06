@@ -5,6 +5,7 @@ include "dbcon.php";
 if (isset($_POST['book_id'])) {
     $book_id = intval($_POST['book_id']);
    
+    
 
     $book_sql = " SELECT * FROM additems WHERE id = $book_id; ";
     $book_result = $conn->query($book_sql);
