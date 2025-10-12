@@ -243,7 +243,7 @@
      <div style="width:120vh; height:55vh; background-color:transparent; border:4px solid rgba(44, 43, 43, 0.745);border-left:none;border-right:none;border-top:none;">
    
       <img src='/SportsMart/upload/<?php echo $buy_history_row['item_image'];?>' style="width: 26vh; height:36vh; border-radius:6px; margin-left:calc(4%); margin-top:calc(7%)"/>
-      <button onclick="cancel_from_cart()" type="submit" style="background:red;border-radius:2px;width:20px;height:9px;  display:block;margin-top:-43vh; margin-left:113vh;"></button>
+      <button onclick="cancel_from_cart(<?php echo htmlspecialchars(json_encode($buy_history_row['id'])); ?>)" type="submit" style="background:red;border-radius:2px;width:20px;height:9px;  display:block;margin-top:-43vh; margin-left:113vh;"></button>
        <div style="width:80vh; height:46vh; background-color:rgb(43, 91, 91);;  margin-top:2vh; margin-left:39vh; border-top-left-radius: 80px;border-bottom-left-radius:80px;">
         <div style="background-color: rgba(255, 0, 0, 0); width:75vh; margin-left:3vh; height:45vh;">
           <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; color:antiquewhite;font-family:monospace;">
@@ -672,15 +672,11 @@ function loginpage() {
   }
 }
  
-function cancel_from_cart(){
-  const popdownBar = document.getElementById("cancel_cart");
-  if (popdownBar.style.display === "none") {
-    popdownBar.style.display = "block"; // Show the bar
+function cancel_from_cart(productid){
+ if(confirm("Do you want to be delete this product !.."))
+  window.location.href='delete_product.php?id='+productid;
 
-    
-  } else {
-    popdownBar.style.display = "none"; // Hide the bar
-  }
+  
 }
 
 function CloseBar_from_cart(){
