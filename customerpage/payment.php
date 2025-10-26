@@ -12,7 +12,7 @@
 
     <?php
 
-    $pay_id = $_GET['pay_id'];  
+          $pay_id =$_SESSION['item_id_to_bill']= $_GET['pay_id'];  
           $pay_sql = "SELECT * FROM `additems` where `id` = $pay_id;";
           $pay_result =  mysqli_query($conn,$pay_sql);
           $pay_row=mysqli_fetch_assoc($pay_result);

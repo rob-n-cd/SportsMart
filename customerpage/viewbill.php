@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php include('dbcon.php');
+  session_start();
+   ?>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -164,13 +167,20 @@
     <div class="bill-details">
       Customer: <strong>John Doe</strong>
     </div>
-
+<?php
+$id = $_SESSION['item_id_to_bill'];
+$sql = "SELECT * FROM `additems` where `id` = $id;";
+ $result =  mysqli_query($conn,$sql);
+$row=mysqli_fetch_assoc($result);
+$total = $_SESSION['total'];
+$qty = $_SESSION['quandity'];
+?>
     <!-- Single item neatly aligned -->
     <div class="item">
-      <div class="row"><strong>Item:</strong> <span>T-shirt</span></div>
-      <div class="row"><strong>Quantity:</strong> <span>2</span></div>
-      <div class="row"><strong>Price:</strong> <span>₹500</span></div>
-      <div class="row"><strong>Total:</strong> <span>₹1000</span></div>
+      <div class="row"><strong>Item:</strong> <span><?php echo $row['name']; ?></span></div>
+      <div class="row"><strong>Quantity:</strong> <span><?php echo $qty; ?></span></div>
+      <div class="row"><strong>Price:</strong> <span>₹<?php echo $row['price']; ?></span></div>
+      <div class="row"><strong>Total:</strong> <span>₹<?php echo $total; ?></span></div>
     </div>
 
     <div class="total">Grand Total: ₹1000</div>

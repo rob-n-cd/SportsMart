@@ -162,7 +162,7 @@
     width:160vh; height:95vh; border-radius:9px; overflow:hidden;overflow-y:scroll;">  
    <div class="m-auto row">
 <div class="dropdown">
-  <button class="dropbtn" onclick="options()">Categorys</button>
+  <button class="dropbtn" onclick="options()">Categories</button>
   <div id = "optionsground" class="dropdown-content">
     <?php   $sqlcategory = "select * from category where status=1;";
     $category = mysqli_query($conn,$sqlcategory);  

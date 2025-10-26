@@ -117,7 +117,7 @@ $sql = "select * from register;";
    <div class="nav-container">
     <nav class="nav-btns col-form-label-lg">
       <a href="#"class="home">Home</a>
-      <a class="Shoping-Page" onclick="shopbox()">Shoping</a>
+      <a class="Shoping-Page" onclick="shopbox()">Shopping</a>
       <a href="#" class="contact">Contact</a>
       <a href="#" class="about">About</a>
     </nav>

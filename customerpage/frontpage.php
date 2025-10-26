@@ -117,7 +117,7 @@
    <div class="nav-container">
     <nav class="nav-btns col-form-label-lg">
       <a href="#"class="home">Home</a>
-      <a href="mainpage.php" class="Shoping-Page">Shoping</a>
+      <a href="mainpage.php" class="Shoping-Page">Shopping</a>
       <a href="#" class="contact">Contact</a>
       <a href="#" class="about">About</a>
     </nav>

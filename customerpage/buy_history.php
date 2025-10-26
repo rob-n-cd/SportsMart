@@ -235,7 +235,7 @@
     <div  class="items-box gzoomIn bg-dark" style="display: flex; justify-content:center; margin-left:44vh; align-items:center; position:fixed;  background:rgb(185, 185, 185);  width:160vh; height:95vh; border-radius:9px; overflow:hidden;overflow-y:scroll;">  
     <div class="m-auto row">
      <div class="col-4 carousel-fade p-5" > 
-      <div style="width:120vh;height:100vh; background:transparant;position:relative"><h3 class="p-3 card" style="display: block; text-align:center; font-family:'Times New Roman', Times, serif;">Bill</h3>
+      <div style="width:120vh;height:100vh; background:transparant;position:relative"><h3 class="p-3 card" style="display: block; text-align:center; font-family:'Times New Roman', Times, serif;">Purchased Items</h3>
     <?php   while($buy_history_row = mysqli_fetch_assoc($result_buy_history))
      {  ?>
         <div style="width:120vh;height:55vh; background:rgb(255, 255, 255);position:relative">
