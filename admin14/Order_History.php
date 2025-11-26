@@ -44,7 +44,7 @@
                   <i class="icon-search"></i>
                 </span>
               </div>
-             <h1>View Out of Stock Items</h1>
+             <h1>View Order History</h1>
             </div>
           </li>
         </ul>
@@ -205,33 +205,45 @@
 
 
       <?php
-        $sql = "select * from additems where stocks=0 and status=1;";
+        $sql = "select * from buyhistory;";
         $result = mysqli_query($conn,$sql);
       ?>
+
+       <form action="filter_order.php" method="post">
+    <input type="text" name="search" class="p-xl-1 pl-xl-5" style="font-size:20px;margin-left:55vh; margin-top:34px; border:1px solid;"/>
+        <input type="submit" name="filterorder" value="search"/>
+      </form>
 
     <div class="container_gray_bg navbar-brand text-center"  id="home_feat_1">
     <div class="container">
     	<div class="row">
             <div class="col-md-12">
-                <table  border="1" class="table badge-light thead-dark" style="margin-top:100px; margin-left:20vh;">
+                <table  border="1" class="table badge-light thead-dark" style="margin-top:100px; margin-left:-90vh;">
                     <tbody class="thead-dark">  
                     <tr>
                         
         <th>Id</th>
-        <th> Item Name</th>
-           <th>Action</th>
+        <th> Customer Name</th>
+        <th> Place </th>
+         <th> Product Name</th>
+          <th>Quantity</th>
+          <th> Total Price</th>
+           <th> Date</th>
+            <th>Image</th>
+          
       
       </tr>
       <?php
         while($row = mysqli_fetch_assoc($result)){?>
       <tr> 
         <td  style=" font-size:20px;"> <?php echo $row['id'] ?> </td>
-          <td  style=" font-size:20px;"> <?php echo $row['name'] ?> </td>
-          <td>
-              <form action="reset.php?id=<?php echo $row['id']?>"  method="post"> 
-                 <input type="number" name="set" value="<?php echo $row['stocks']?>" style=" font-size:15px;width:10vh; height:5vh; text-align:center; margin-left:-3vh;" > <input type="submit" name="reset" value="reset" class="btn btn-success m-3" style="align-item:center;  margin-left:5vh; ">
-              </form>
-         </td>
+          <td  style=" font-size:20px;"> <?php echo $row['cust_name'] ?> </td>
+           <td  style=" font-size:20px;"> <?php echo $row['location'] ?> </td>
+          <td  style=" font-size:20px;"> <?php echo $row['item_name'] ?> </td>
+           <td  style=" font-size:20px;"> <?php echo $row['quantity'] ?> </td>
+          <td  style=" font-size:20px;"> <?php echo $row['total_price'] ?> </td>
+           <td  style=" font-size:20px;"> <?php echo $row['date'] ?> </td>
+          <td  style=" font-size:20px;"> <img src='/SportsMart/upload/<?php echo $row['item_image'];?>' style="width: 15vh; height:20vh; border-radius:6px; margin-left:10px;margin-top:20px;"/> </td>
 
       </tr>
      <?php }?>

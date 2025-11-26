@@ -290,7 +290,7 @@
         </div>
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Location:</h5> <label style='margin-left:72px; font-size:18px;'><input type='text' name='loc'placeholder="text.."  required style='height:5vh; border-radius:5px; border:none'></label>
+          <h5>Place:</h5> <label style='margin-left:95px; font-size:18px;'><input type='text' name='loc'placeholder="text.."  required style='height:5vh; border-radius:5px; border:none'></label>
         </div>
 
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
@@ -306,10 +306,10 @@
         </div>
         
         <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;'>
-          <h5>Enter Date:</h5> <label style='margin-left:6vh;font-size:18px;'><input type='date' name='date' required style=' border-radius:5px; border:none'></label>
+          <h5>Enter Date:</h5> <label style='margin-left:6vh;font-size:18px;'><input type='text' name='date' value="<?php echo date('Y-m-d');?>" readonly style=' border-radius:5px; border:none'></label>
         </div>
         
-        <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 45vh; margin-top:-11vh; color:antiquewhite;font-family:monospace;'>
+        <div class='card-group column-gap-md-2 p-lg-5' style='margin-left: 45vh; margin-top:-5vh; color:antiquewhite;font-family:monospace;'>
           <input type='submit' name='booking' value='submit'  style='border: none; border-radius:7px;color:black;background:white;height:5vh;width:10vh'> 
         </div>
       </div>

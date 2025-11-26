@@ -10,7 +10,7 @@ $form=new FormAssist($elements,$_POST);
 
 $dao=new DataAccess();
 
-$labels=array('name'=>"Manufactuer/importer",'tech'=>"Material",'color'=>"Color","playlevel"=>"Player Level","size"=>"Item - Size","quality"=>"Quality","price"=>"Price","image"=>"Image","cid"=>"Category");
+$labels=array('name'=>"Item Name",'tech'=>"Material",'color'=>"Color","playlevel"=>"Player Level","size"=>"Item - Size","quality"=>"Quality","price"=>"Price","image"=>"Image","cid"=>"Category");
 
 $rules=array(
     "name"=>array("required"=>true),
@@ -277,9 +277,9 @@ echo $file->errors();
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+             <a class="nav-link" data-toggle="collapse" href="Order_History.php" aria-expanded="false" aria-controls="auth">
               <i class="icon-head menu-icon"></i>
-              <span class="menu-title">User Pages</span>
+              <span class="menu-title">View Order History</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="auth">
@@ -310,9 +310,9 @@ echo $file->errors();
         <div style=" position:related; width:88vh; height:136vh; background:rgba(39, 38, 41, 0.798) ; margin-left:calc(-10%); margin-top:15vh; border-radius:15px; ">
        
         <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; color:antiquewhite;font-family:monospace;">
-          <h5>Manufactuer/importer:</h5> <label style="margin-left:6vh;font-size:18px;">
+          <h5>Item Name:</h5> <label style="margin-left:6vh;font-size:18px;">
 
-                 <?= $form->textBox('name',array('class'=>'form-control','style'=>'height:3vh')); ?>
+                 <?= $form->textBox('name',array('class'=>'form-control','style'=>'height:3vh;margin-left:7vh')); ?>
                 <?= $validator->error('name '); ?>
 
           </label>
@@ -321,7 +321,7 @@ echo $file->errors();
         <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-7vh; color:antiquewhite;font-family:monospace;">
           <h5>Matrial:</h5> <label style="margin-left:21vh; font-size:18px;"> 
 
-            <?= $form->textBox('tech',array('class'=>'form-control','style'=>'height:3vh')); ?>
+            <?= $form->textBox('tech',array('class'=>'form-control','style'=>'height:3vh;margin-left:vh')); ?>
                 <?= $validator->error('tech '); ?>
 
               </label>
@@ -415,7 +415,7 @@ echo $file->errors();
       </form>
 
 
-    <div class="container_gray_bg navbar-brand text-center" style=" margin-left:-100vh; margin-top:9vh;" id="home_feat_1">
+    <div class="container_gray_bg navbar-brand text-center" style=" margin-left:-90vh; margin-top:9vh;" id="home_feat_1">
     <div class="container">
     	<div class="row">
             <div class="col-md-12">

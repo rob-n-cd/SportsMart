@@ -1,8 +1,106 @@
-<?php include('dbcon.php') ?>
+ <?php 
+include('dbcon.php');
+ require('../config/autoload.php'); 
+ ob_start();
+$file=new FileUpload();
+$elements=array( "name"=>"","tech"=>"","msoft"=>"","color"=>"","playlevel"=>"","size"=>"","quality"=>"","price"=>"","image"=>"","cid"=>"","Total items");
+
+
+$form=new FormAssist($elements,$_POST);
+
+
+
+$dao=new DataAccess();
+
+$labels=array('name'=>"Manufactuer/importer",'tech'=>"Material",'color'=>"Color","playlevel"=>"Player Level","size"=>"Item - Size","quality"=>"Quality","price"=>"Price","image"=>"Image","cid"=>"Category");
+
+$rules=array(
+    "name"=>array("required"=>true),
+    "tech"=>array("required"=>true),
+    "color"=>array("required"=>true),
+    "playlevel"=>array("required"=>true),
+    "size"=>array("required"=>true),
+    "quality"=> array("required"=>true),
+    "price"=>array("required"=>true),
+    "image"=>array("filerequired"=>true),
+    "cid"=>array("required"=>true),
+  
+);
+    
+    
+$validator = new FormValidator($rules,$labels);
+
+if(isset($_POST["insert"]))
+{
+
+if($validator->validate($_POST))
+{
+	
+    if($fileName=$file->doUploadRandom($_FILES['image'],array('.jpg','.png','.JPEG','.jfif','.JFIF'),100000,1,'../upload'))	
+    {
+
+$data=array(
+
+       
+        'name'=>$_POST['name'],
+        'tech'=>$_POST['tech'],
+        'color'=>$_POST['color'],
+        'playlevel'=>$_POST['playlevel'],
+        'size'=>$_POST['size'],
+         'quality'=>$_POST['quality'],
+         'price'=>$_POST['price'],
+          'image'=>$fileName,
+          'category'=>$_POST['cid']
+
+    );
+
+   
+    if($dao->insert($data,"additems"))
+    {
+        echo "<script> alert('New record created successfully');</script> ";
+
+    }
+    else
+        {$msg="Registration failed";} ?>
+
+
+<?php
+    
+}
+else
+echo $file->errors();
+}
+
+}
+
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
- 
+  <script>
+            function openpage() {
+      const bookid = document.getElementById("addsports");
+      if (bookid.style.display === "none") {
+          bookid.style.display ="block"; 
+        
+      } else {
+        bookid.style.display = "none"; // Hide the bar
+      }
+    }
+          </script>
 <head>
   <!-- Required meta tags --> 
   <meta charset="utf-8">
@@ -25,6 +123,7 @@
   <link rel="shortcut icon" href="images/favicon.png" />
 </head>
 <body>
+    
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -44,12 +143,14 @@
                   <i class="icon-search"></i>
                 </span>
               </div>
-             <h1>View Out of Stock Items</h1>
+             <h1>Add Sports Items</h1>
             </div>
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-          
+            <li class="nav-item dropdown d-lg-flex d-none">
+                <button type="button" class="btn btn-info font-weight-bold" onclick="openpage()">+ Create New</button>
+            </li>
           <li class="nav-item dropdown d-flex">
             <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
               <i class="icon-air-play mx-0"></i>
@@ -160,7 +261,7 @@
               <span class="menu-title">Add Category</span>
             </a>
           </li>
-         <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" href="userdetails.php">
               <i class="icon-pie-graph menu-icon"></i>
               <span class="menu-title">User Details</span>
@@ -173,7 +274,7 @@
             </a>
           </li>
           <li class="nav-item">
-           <a class="nav-link" href="viewoutofstocks.php">
+            <a class="nav-link" href="viewoutofstocks.php">
               <i class="icon-help menu-icon"></i>
               <span class="menu-title">Out of Stock Items</span>
             </a>
@@ -203,38 +304,75 @@
         </ul>
       </nav>
 
+        
+  
+        
+      
+      
+          
+    </div>
+    
+ <form method="POST" class="card-img-overlay m-4" style="margin-left:">
+        <span style="margin-left:50vh; position:fixed; margin-top:30px; "></span><input type="text" name="search" class="p-xl-1 pl-xl-5" style="font-size:20px;margin-left:55vh; margin-top:34px; border:1px solid;"/>
+        <input type="submit" name="filterorder" value="search"/>
+      </form>
 
-      <?php
-        $sql = "select * from additems where stocks=0 and status=1;";
-        $result = mysqli_query($conn,$sql);
-      ?>
-
-    <div class="container_gray_bg navbar-brand text-center"  id="home_feat_1">
+    <div class="container_gray_bg navbar-brand text-center" style=" margin-left:-100vh; margin-top:9vh;" id="home_feat_1">
     <div class="container">
     	<div class="row">
             <div class="col-md-12">
-                <table  border="1" class="table badge-light thead-dark" style="margin-top:100px; margin-left:20vh;">
-                    <tbody class="thead-dark">  
-                    <tr>
+                <table  border="1" class="card-img-overlay table badge-light thead-dark" style=" margin-left:140vh;margin-top:-90vh; border:1px solid black;">
+                <tbody class="thead-dark">  
+                <tr >
                         
-        <th>Id</th>
-        <th> Item Name</th>
-           <th>Action</th>
+       <th>Id</th>
+        <th> Customer Name</th>
+        <th> Place </th>
+         <th> Product Name</th>
+          <th>Quantity</th>
+          <th> Total Price</th>
+           <th> Date</th>
+            <th>Image</th>
       
       </tr>
-      <?php
-        while($row = mysqli_fetch_assoc($result)){?>
-      <tr> 
-        <td  style=" font-size:20px;"> <?php echo $row['id'] ?> </td>
-          <td  style=" font-size:20px;"> <?php echo $row['name'] ?> </td>
-          <td>
-              <form action="reset.php?id=<?php echo $row['id']?>"  method="post"> 
-                 <input type="number" name="set" value="<?php echo $row['stocks']?>" style=" font-size:15px;width:10vh; height:5vh; text-align:center; margin-left:-3vh;" > <input type="submit" name="reset" value="reset" class="btn btn-success m-3" style="align-item:center;  margin-left:5vh; ">
-              </form>
-         </td>
-
-      </tr>
-     <?php }?>
+      <tr>
+        <?php
+ if(isset($_POST['filterorder']))
+ {
+     $search = $_POST['search'];
+    $sql_full_records = "select * from buyhistory;";
+    $result_full_result = mysqli_query($conn,$sql_full_records);
+    while($row1 = mysqli_fetch_assoc($result_full_result))
+    {
+        if($search == $row1['date'])
+            $flag = 1;
+        
+    }
+    if($flag != 1)
+        header('Location: Order_History.php');
+    
+   
+ }
+?>
+      
+</tr>
+<tr>
+    <?php
+      $sql = "select * from buyhistory where date = '$search';";
+    $result = mysqli_query($conn,$sql);
+ 
+   while( $filter_row = mysqli_fetch_assoc($result)){
+    ?>
+    <td> <?php echo $filter_row['id'];?> </td>
+    <td> <?php echo $filter_row['cust_name'];?> </td>
+    <td> <?php echo $filter_row['location'];?> </td>
+    <td> <?php echo $filter_row['item_name'];?> </td>
+    <td> <?php echo $filter_row['quantity'];?> </td>
+    <td> <?php echo $filter_row['total_price'];?> </td>
+    <td> <?php echo $filter_row['date'];?> </td>
+     <td  style=" font-size:20px;"> <img src='/SportsMart/upload/<?php echo $filter_row['item_image'];?>' style="width: 15vh; height:20vh; border-radius:6px; margin-left:10px;margin-top:20px;"/> </td>
+    <?php }?>
+</tr>
     </table>
   </div>
   
@@ -243,5 +381,6 @@
           </div>
           </body>
           </html>
+          
 
         

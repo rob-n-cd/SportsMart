@@ -168,29 +168,29 @@
       Customer: <strong><?php echo $_SESSION['user']; ?></strong>
     </div>
 <?php
-$id = $_SESSION['item_id_to_bill'];
-$sql = "SELECT * FROM `additems` where `id` = $id;";
- $result =  mysqli_query($conn,$sql);
-$row=mysqli_fetch_assoc($result);
-$total = $_SESSION['total'];
-$qty = $_SESSION['quandity'];
+if(isset($_POST['viewbill']))
+{
+$id = $_GET['id'];
+$sql_buy_history = "select * from buyhistory where id = '$id';";
+ $result_buy_history = mysqli_query($conn,$sql_buy_history);  
+ $row = mysqli_fetch_assoc($result_buy_history);
+}
 ?>
     <!-- Single item neatly aligned -->
     <div class="item">
-      <div class="row"><strong>Item:</strong> <span><?php echo $row['name']; ?></span></div>
-      <div class="row"><strong>Quantity:</strong> <span><?php echo $qty; ?></span></div>
-      <div class="row"><strong>Price:</strong> <span>₹<?php echo $row['price']; ?></span></div>
-      <div class="row"><strong>Total:</strong> <span>₹<?php echo $total; ?></span></div>
+      <div class="row"><strong>Item:</strong> <span><?php echo $row['item_name']; ?></span></div>
+      <div class="row"><strong>Quantity:</strong> <span><?php echo $row['quantity']; ?></span></div>
+      <div class="row"><strong>Total:</strong> <span>₹<?php echo $row['total_price']; ?></span></div>
     </div>
 
-    <div class="total">Grand Total: ₹<?php echo $total; ?></div>
+    <div class="total">Grand Total: ₹<?php echo $row['total_price']; ?></div>
 
     <div class="bill-footer">
     
     </div>
 
     <button class="btn btn-print" onclick="printBill()">🖨 Print Bill</button>
-    <button class="btn btn-ok" onclick="okAction()">Menu</button>
+    <button class="btn btn-ok" onclick="okAction()">Back</button>
   </div>
 
   <script>
@@ -232,8 +232,8 @@ $qty = $_SESSION['quandity'];
     }
 
     function okAction() {
-      alert("✅ Thank you for shopping.");
-      window.location.href = "frontpage.php";
+
+      window.location.href = "buy_history.php";
       // Example redirect: window.location.href = "homepage.html";
     }
 

@@ -261,6 +261,10 @@
           <div class="card-group column-gap-md-2 p-lg-5" style="margin-left: 3vh; margin-top:-10vh; color:antiquewhite;font-family:monospace;">
             <h5>date of Purchased:</h5> <label style="margin-left:3vh;font-size:18px;"><?php echo $buy_history_row['date']?></label>
           </div>
+
+          <form action='viewbilltemp.php?id=<?php echo $buy_history_row['id'];?>' method='post'>
+            <input type="submit" name="viewbill" value="bill" style="margin-left:80px; border:1px solid black;background:white;border-radius:3px;">
+          </form>
         </div>
     </div>
      

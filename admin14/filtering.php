@@ -273,15 +273,15 @@ echo $file->errors();
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="pages/icons/feather-icons.html">
+            <a class="nav-link" href="viewoutofstocks.php">
               <i class="icon-help menu-icon"></i>
-              <span class="menu-title">Icons</span>
+              <span class="menu-title">Out of Stock Items</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+            <a class="nav-link" data-toggle="collapse" href="Order_History.php" aria-expanded="false" aria-controls="auth">
               <i class="icon-head menu-icon"></i>
-              <span class="menu-title">User Pages</span>
+              <span class="menu-title">View Order History</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="auth">
@@ -410,7 +410,8 @@ echo $file->errors();
           
     </div>
      <form method="POST">
-        <span style="margin-left:50vh; position:fixed; margin-top:30px; "></span><input type="text" name="search" class="p-xl-1 pl-xl-5" style="font-size:20px;margin-left:55vh; margin-top:34px; border:1px solid;"/>
+        <span style="margin-left:50vh; position:fixed; margin-top:30px; "></span>
+        <input type="text" name="search" class="p-xl-1 pl-xl-5" style="font-size:20px;margin-left:55vh; margin-top:34px; border:1px solid;"/>
         <input type="submit" name="filter" value="search"/>
       </form>
 
@@ -486,7 +487,7 @@ echo $file->errors();
     );
      $fields=array('id','name','tech','color','playlevel','size','quality','price','image');
 
-    $users=$dao->selectAsTable($fields,'additems',"status=1 and category='$row[cid]'",null,$actions,$config);
+    $users=$dao->selectAsTable($fields,'additems',"status=1 and category='$row[cid]' and stocks!=0",null,$actions,$config);
     echo $users;
                     
                     

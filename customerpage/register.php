@@ -4,60 +4,7 @@ ob_start();
 include('dbcon.php');
 
 
- if(isset($_POST['register']))
- {
-  
-       $username =$_POST['username'];
-      $password = $_POST['password'];
-      $email = $_POST['email'];
-      $name = $_POST['name'];
-      $phone = $_POST['phone'];
-      $address =$_POST['address'];
-      $repassword=$_POST['repassword'];
-      $gender = $_POST['gender'];
-      $flag = 0;
 
-$sql = "select * from register;";
-      $res = mysqli_query($conn,$sql);
-      while($row = mysqli_fetch_assoc($res))
-      {  if($row['username'] == $username)
-          $flag = 1;
-        }
-
-
-          
-
-         if($password != $repassword ){ 
-            echo "<script> 
-            alert('Password not mached!');
-          </script>";
-         }
-         elseif(strlen($password) <= 6)
-         {
-           echo "<script> 
-            alert('Password must be 6 or more characters ');
-          </script>";
-         }
-         elseif($flag == 1){
-           
-            echo "<script> 
-            alert('this username is already used!');
-          </script>";
-        }
-        else
-        {
-            $sql = "INSERT INTO `register`(`username`,`email`,`phonenumber`,`address`,`password`,`gender`,`name`) VALUES ('$username','$email','$phone','$address','$password','$gender','$name')";
-                 $conn->query($sql);
-      
-             header("Location: headpage.php"); 
-            
-        }
-
-
-        
-        
-       exit();
-     }
 ?>
 
 
@@ -328,7 +275,7 @@ $sql = "select * from register;";
 
     ?>
   <hr id="horizon" style="width: 2px; height:7vh; background:#939598; position:fixed;margin-left:30vh; border-radius:50px; margin-top:-9vh; ">
-  <a  href="register.php" ><h6 style="position: fixed; color:white; margin-left:38vh; margin-top:-6vh">Register</h6></a>
+  <a href="#" id="changebutton" onclick="registerpage()"><h6 style="position: fixed; color:white; margin-left:38vh; margin-top:-6vh">Register</h6></a>
   
   <div style="color:black; background:rgb(255, 255, 255); position:fixed; margin-left:51vh; margin-top:-58vh; height: 1vh;padding-bottom:35px; padding-right:8px; padding-left:8px; border-radius:100px; font-size:25px; " onclick="CloseBar()">&times;</div>
 
@@ -340,7 +287,7 @@ $sql = "select * from register;";
   <div class="register-page"  id="pop-registerpage"><center>
     <div class="div-protecter" id="move-div" >
     <div class="register-bar">
-      <form action="" method="post">
+      <form  method="post">
     <h1 class="head" style="margin-left:-60vh;">Sign Up</h1>
     <div class="register-text-box">
       <input type="text" name="username" required="required">
@@ -359,7 +306,7 @@ $sql = "select * from register;";
   </div>
     <input class="register-btn" type="submit" name="register" value="register">
     <hr id="horizon" style="width: 2px; height:50vh; background:#939598; position:fixed;margin-left:50vh; border-radius:50px; margin-top:-40vh; ">
-    <a href="#" id="changebutton" onclick="loginpage()"><h6 style="position: fixed; color:white; margin-left:38vh; margin-top:10vh">Login</h6></a>
+    <a href="headpage.php" id="changebutton" onclick="loginpage()"><h6 style="position: fixed; color:white; margin-left:38vh; margin-top:10vh">Login</h6></a>
     
     <div style="color:black; background:white; position:fixed; margin-left:96vh; margin-top:-56vh; height: 1vh;padding-bottom:35px; padding-right:8px; padding-left:8px; border-radius:100px; font-size:25px; " onclick="CloseBar_Register()">&times;</div>
 
@@ -382,8 +329,7 @@ $sql = "select * from register;";
       
      <div style="margin-top:-20px; margin-left:-10vh;"><label style="margin-left:-410px;">male</label><input type="radio" name="gender" value="male" id="male" style="color:white;margin-top:-17px; margin-right:14vh;" required="required"></div>    
     <div style="margin-top:-20px;"><label style="margin-left:-230px;  margin-top:-30px;"> female </label><input type="radio" name="gender" value="female"  id= "female" style="color:white;margin-top:-17px; margin-right:-9vh;" required="required"></div>
-  
-  </div>
+ </div>
 </form>
   
   </div>
@@ -397,6 +343,63 @@ $sql = "select * from register;";
     </center>
   </div>
   
+<?php
+ if(isset($_POST['register']))
+ {
+  
+       $username =$_POST['username'];
+      $password = $_POST['password'];
+      $email = $_POST['email'];
+      $name = $_POST['name'];
+      $phone = $_POST['phone'];
+      $address =$_POST['address'];
+      $repassword=$_POST['repassword'];
+      $gender = $_POST['gender'];
+      $flag = 0;
+
+$sql = "select * from register;";
+      $res = mysqli_query($conn,$sql);
+      while($row = mysqli_fetch_assoc($res))
+      {  if($row['username'] == $username)
+          $flag = 1;
+        }
+
+
+
+         if($password != $repassword ){ 
+            echo "<label style='color:red;margin-top:47vh; margin-left:65vh; position:fixed;'>Error:Password not mached!</label>";
+          
+         }
+         else if(strlen($password) < 6)
+         {
+           echo " <label style='color:red;margin-top:47vh; margin-left:65vh; position:fixed;'>Error:Password must<br> be 6 or more characters !</label>
+  ";
+           
+         }
+          else if(strlen($phone) < 10 || strlen($phone) >10)
+         {
+           echo "<label style='color:red;margin-top:47vh; margin-left:65vh; position:fixed;'>Error:Invalid Phone Number!</label>";
+         }
+         elseif($flag == 1){
+           
+            echo "<label style='color:red;margin-top:47vh; margin-left:65vh; position:fixed;'>Error:This username is <br>already used!</label>";
+        }
+        else
+        {
+            $sql = "INSERT INTO `register`(`username`,`email`,`phonenumber`,`address`,`password`,`gender`,`name`) VALUES ('$username','$email','$phone','$address','$password','$gender','$name')";
+                 $conn->query($sql);
+      
+             header("Location: headpage.php"); 
+            
+        }
+
+
+        
+        
+  
+     }
+?>
+
   <script>
 
     
@@ -1090,7 +1093,7 @@ function CloseBar(){
       margin-top: -16vh;
       border-radius: 10px;
       position:absolute ;
-      display: none;
+      display: block;
     }
     .div-protecter{
       background-color: rgba(24, 234, 234, 0);

@@ -50,7 +50,7 @@ $dao=new DataAccess();
                   <i class="icon-search"></i>
                 </span>
               </div>
-             <h1>Add Categorys</h1>
+             <h1>View Booking</h1>
             </div>
           </li>
         </ul>
@@ -187,9 +187,9 @@ $dao=new DataAccess();
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+           <a class="nav-link" data-toggle="collapse" href="Order_History.php" aria-expanded="false" aria-controls="auth">
               <i class="icon-head menu-icon"></i>
-              <span class="menu-title">User Pages</span>
+              <span class="menu-title">View Order History</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="auth">
